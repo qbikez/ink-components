@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "start": "node --loader ts-node/esm ./samples/_index.ts"
+    "start": "node --loader ts-node/esm ./samples/index.ts"
   },
   "author": "",
   "license": "ISC",
