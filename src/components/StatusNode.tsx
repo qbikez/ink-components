@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Text, useListItem, Color } from "tuir";
+import { Box, Text, useListItem, Color } from "../tuir.js";
 import { ProgressItem } from "../utils/ProgressContext.js";
 import { ProgressItemState } from "../utils/commands.js";
 

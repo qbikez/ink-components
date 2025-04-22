@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
 
-import { Box, BoxProps, useNode } from "tuir";
+import { Box, BoxProps, useNode } from "../tuir.js";
 import { border } from "../utils/borders.js";
 
 export function Frame(props: BoxProps & PropsWithChildren): React.ReactNode {

@@ -8,7 +8,7 @@ import {
   useKeymap,
   DOMElement,
   usePage,
-} from "tuir";
+} from "../tuir.js";
 import cliBoxes from "cli-boxes";
 import { border } from "../utils/borders.js";
 

@@ -1,6 +1,6 @@
 ﻿import React from "react";
 
-import { render } from "tuir";
+import { render } from "../src/tuir.js";
 import { patchConsole } from "../src/utils/console-utils.js";
 import { Root } from "./Root.js";
 import { WithProgress } from "../src/components/WithProgress.js";

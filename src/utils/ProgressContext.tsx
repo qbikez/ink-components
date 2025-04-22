@@ -1,4 +1,4 @@
-﻿import React from "react";
+﻿import React, { useReducer } from "react";
 import { createContext } from "react";
 import { EventEmitter } from "node:events";
 import { ProgressItemState } from "./commands.js";
@@ -117,7 +117,7 @@ export function useProgress() {
 export function createProgress<TPath extends string | number | symbol>(
   progressState: ProgressContextState<TPath>
 ) {
-  return React.useReducer(progressReducer, progressState);
+  return useReducer(progressReducer, progressState);
 }
 
 export function progressReducer<TPath extends string | number | symbol>(

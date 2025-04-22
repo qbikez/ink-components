@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 
-import { Box, KeyMap, List, Text, useKeymap, useList, useListItem } from "tuir";
+import { Box, KeyMap, List, Text, useKeymap, useList, useListItem } from "../tuir.js";
 import {
   ProgressContextType,
 } from "../utils/ProgressContext.js";

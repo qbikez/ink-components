@@ -1,11 +1,24 @@
-﻿import React, { useState } from "react";
-import { KeyMap, Node, useKeymap, useNodeMap, Viewport } from "tuir";
+﻿import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Cli,
+  Commands,
+  KeyMap,
+  Node,
+  StdinState,
+  Text,
+  useCommand,
+  useKeymap,
+  useNodeMap,
+  Viewport,
+} from "../src/tuir.js";
 import { useProgress } from "../src/utils/ProgressContext.js";
 import { ProgressVisualiser } from "../src/components/ProgressVisualiser.js";
 import { Frame } from "../src/components/Frame.js";
 import cliBoxes from "cli-boxes";
 import ScrollingBox from "../src/components/ScrollingBox.js";
 import { commandEmitter } from "../src/utils/commands.js";
+import { init } from "./init.js";
 
 export function MainPage() {
   const progress = useProgress();
@@ -33,6 +46,15 @@ export function MainPage() {
     control.next();
   });
 
+  const commands = {
+    'q': async (args) => {
+      process.exit(0);
+    },
+    DEFAULT: async (args) => {
+      console.warn("Command invoked!", args);
+    },
+  } satisfies Commands;
+
   return (
     <Viewport flexDirection="column">
       <Node {...register("list")}>
@@ -52,10 +74,29 @@ export function MainPage() {
           ></ScrollingBox>
         </Frame>
       </Node>
+      <Box marginTop={-1}>
+        <Text>⌨️ </Text>
+        <StdinState
+          showEvents={true}
+          showRegister={true}
+          eventStyles={{
+            color: "green",
+          }}
+          registerStyles={{
+            color: "blue",
+          }}
+          width={25}
+        />
+      </Box>
+      <Cli commands={commands}></Cli>
     </Viewport>
   );
 }
 
 export function Root() {
+  useEffect(() => {
+    init();
+  }, []);
+
   return <MainPage />;
 }

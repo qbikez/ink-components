@@ -1,16 +1,30 @@
 {
   "compilerOptions": {
-    "target": "es2024",
-    "lib": ["es2024"],
+    "target": "es2023",
+    "lib": ["es2023"],
     "module": "nodenext",
     "moduleResolution": "node16",
     "esModuleInterop": true,
+    "isolatedModules": true,
 
     "strict": true,
     "skipLibCheck": true,
 
     "jsx": "react",
     "outDir": "build",
-    "sourceMap": true
-  }
+    "sourceMap": true,
+    "noEmit": false
+  },
+  "ts-node": {
+		"transpileOnly": true,
+		"//files": true,
+		"experimentalResolver": true,
+    "experimentalSpecifierResolution": "node",
+		"noPropertyAccessFromIndexSignature": false,
+		"noImplicitAny": false,
+		"noUnusedLocals": false,
+    "esm": true,
+    "logError": true,
+    "require": ["ts-node/register", "react"],
+	}
 }

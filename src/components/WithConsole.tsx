@@ -4,12 +4,16 @@ import { useProgress } from "../utils/ProgressContext.js";
 
 export function WithConsole({
   children,
-  autoRefreshInterval
+  autoRefreshInterval,
 }: { autoRefreshInterval?: number } & PropsWithChildren) {
   const progress = useProgress();
   useMemo(() => {
     consoleEmitter.on("console", (stream: string, message: string) => {
-      progress.logWithoutUpdate("console", [`${stream}: ${message}`]);
+      if (stream === "warn" || stream === "error") {
+        progress.log("console", [`${stream}: ${message}`]);
+      } else {
+        progress.logWithoutUpdate("console", [`${stream}: ${message}`]);
+      }
     });
 
     console.log("Console patch: %s %i", "DONE", 1);
