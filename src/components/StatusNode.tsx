@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Text, useListItem, Color } from "../tuir.js";
 import { ProgressItem } from "../utils/ProgressContext.js";
 import { ProgressItemState } from "../utils/commands.js";
+import { Spinner } from "./Spinner.js";
 
 export function StatusNode({
   name,
@@ -20,7 +21,8 @@ export function StatusNode({
   const { color, icon } = statusIcon(value ?? { state: "unknown" });
   return (
     <Box backgroundColor={backgroundColor}>
-      {value ? (
+      {value ?
+      value.state == "running" ? (<Spinner label=" " type="dots" speed={2} />) : (
         <Box backgroundColor={backgroundColor} marginRight={1}>
           <Text color={color}>{icon}</Text>
         </Box>

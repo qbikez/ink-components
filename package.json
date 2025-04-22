@@ -19,6 +19,7 @@
     "@types/node": "^22.14.1",
     "@types/react": "^18.2.43",
     "cli-boxes": "^4.0.1",
+    "cli-spinners": "^3.2.0",
     "react": "^18.3.1",
     "react-devtools-core": "^4.28.5",
     "react-dom": "^18.3.1",
