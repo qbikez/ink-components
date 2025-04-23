@@ -15,3 +15,9 @@ export * from "../../../github/tuir/src/index.js";
 ```
 
 Along with a package.json specifying `"type": "module"`.
+
+# Common issues
+
+## ERR_REQUIRE_CYCLE_MODULE
+
+Make sure your project has `"type": "module"` set in `package.json`.
