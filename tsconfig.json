@@ -14,18 +14,19 @@
     "outDir": "build",
     "sourceMap": true,
     "noEmit": false,
+    "declaration": true,
   },
   "include": ["src/**/*"],
   "ts-node": {
-		"transpileOnly": true,
-		"//files": true,
-		"experimentalResolver": true,
+    "transpileOnly": true,
+    "//files": true,
+    "experimentalResolver": true,
     "experimentalSpecifierResolution": "node",
-		"noPropertyAccessFromIndexSignature": false,
-		"noImplicitAny": false,
-		"noUnusedLocals": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
     "esm": true,
     "logError": true,
-    "require": ["ts-node/register", "react"],
-	}
+    "require": ["ts-node/register", "react"]
+  }
 }

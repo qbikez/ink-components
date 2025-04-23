@@ -2,6 +2,7 @@
   "name": "ink-components",
   "version": "1.0.0",
   "main": "build/index.js",
+  "types": "build/index.d.ts",
   "type": "module",
   "scripts": {
     "build": "tsc",
