@@ -1,5 +1,5 @@
 import React from "react";
-export default function ScrollingBox({ lines, data, height, width, title, }: {
+export declare function ScrollingBox({ lines, data, height, width, title, }: {
     lines?: number;
     data: string[];
     height?: string | number;

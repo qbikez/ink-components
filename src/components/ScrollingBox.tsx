@@ -18,7 +18,7 @@ type State = {
 };
 type Action = { type: "scroll"; offset: number };
 
-export default function ScrollingBox({
+export function ScrollingBox({
   lines = 5,
   data = [],
   height = undefined,

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, measureElement, Text, useIsFocus, useKeymap, } from "../tuir.js";
 import cliBoxes from "cli-boxes";
 import { border } from "../utils/borders.js";
-export default function ScrollingBox({ lines = 5, data = [], height = undefined, width = undefined, title = undefined, }) {
+export function ScrollingBox({ lines = 5, data = [], height = undefined, width = undefined, title = undefined, }) {
     const [textLines, setTextLines] = useState(lines);
     const [boxSize, setBoxSize] = useState({ width: 0, height: 0 });
     const [offset, setOffset] = useState(0);
