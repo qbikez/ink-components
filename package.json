@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "start": "node --trace-deprecation --trace-warnings --loader ts-node/esm ./samples/index.ts",
+    "start": "node --trace-deprecation --trace-warnings --loader ts-node/esm ./samples/progress-list/index.ts",
     "start:dist": "node ./build/samples/index.js"
   },
   "author": "",
