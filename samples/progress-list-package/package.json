@@ -1,0 +1,17 @@
+{
+  "name": "progress-list-package",
+  "version": "1.0.0",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node --loader ts-node/esm ./index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "ink-components": "github:qbikez/ink-components",
+    "ts-node": "^10.9.2"
+  }
+}

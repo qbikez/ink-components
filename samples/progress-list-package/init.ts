@@ -1,4 +1,4 @@
-import { progressEmitter, commandEmitter } from "../src/utils/commands.js";
+import { progressEmitter } from "ink-components";
 
 export function init() {
   console.log("Initializing application...");

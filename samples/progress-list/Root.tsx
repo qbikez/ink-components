@@ -11,13 +11,13 @@ import {
   useKeymap,
   useNodeMap,
   Viewport,
-} from "../src/tuir.js";
-import { useProgress } from "../src/utils/ProgressContext.js";
-import { ProgressVisualiser } from "../src/components/ProgressVisualiser.js";
-import { Frame } from "../src/components/Frame.js";
+} from "../../src/tuir.js";
+import { useProgress } from "../../src/utils/ProgressContext.js";
+import { ProgressVisualiser } from "../../src/components/ProgressVisualiser.js";
+import { Frame } from "../../src/components/Frame.js";
 import cliBoxes from "cli-boxes";
-import ScrollingBox from "../src/components/ScrollingBox.js";
-import { commandEmitter } from "../src/utils/commands.js";
+import ScrollingBox from "../../src/components/ScrollingBox.js";
+import { commandEmitter } from "../../src/utils/commands.js";
 import { init } from "./init.js";
 
 export function MainPage() {
