@@ -1,7 +1,7 @@
 {
   "name": "ink-components",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "build/index.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
@@ -20,10 +20,11 @@
     "@types/react": "^18.2.43",
     "cli-boxes": "^4.0.1",
     "cli-spinners": "^3.2.0",
-    "react": "^18.3.1",
-    "react-devtools-core": "^4.28.5",
-    "react-dom": "^18.3.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   }
 }

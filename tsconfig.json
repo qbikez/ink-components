@@ -13,8 +13,9 @@
     "jsx": "react",
     "outDir": "build",
     "sourceMap": true,
-    "noEmit": false
+    "noEmit": false,
   },
+  "include": ["src/**/*"],
   "ts-node": {
 		"transpileOnly": true,
 		"//files": true,
