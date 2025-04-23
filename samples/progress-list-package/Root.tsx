@@ -12,11 +12,9 @@ import {
   useNodeMap,
   Viewport,
 } from "tuir";
-import { init } from "./init";
-import { useProgress } from "ink-components/build/utils/ProgressContext";
-import { commandEmitter, Frame, ProgressVisualiser } from "ink-components";
+import { init } from "./init.js";
+import { commandEmitter, Frame, ProgressVisualiser, ScrollingBox, useProgress } from "ink-components";
 import cliBoxes from "cli-boxes";
-import ScrollingBox from "ink-components/build/components/ScrollingBox";
 
 export function MainPage() {
   const progress = useProgress();
