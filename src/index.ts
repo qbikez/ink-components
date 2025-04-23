@@ -6,3 +6,6 @@ export * from "./components/StatusNode.js";
 export * from "./components/useSpinner.js";
 export * from "./components/WithConsole.js";
 export * from "./components/WithProgress.js";
+
+export { patchConsole } from "./utils/console-utils.js";
+export * from "./utils/commands.js";
