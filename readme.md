@@ -11,7 +11,8 @@ export * from "../../../github/tuir/src/index.js";
 ```javascript
 // node_modules/react/index.js
 
-export * from "../../../github/tuir/src/index.js";
+export * from "../../../../hmdev/ink-components/node_modules/react";
+export { default } from "../../../../hmdev/ink-components/node_modules/react";
 ```
 
 Along with a package.json specifying `"type": "module"`.

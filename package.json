@@ -7,10 +7,9 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "start": "npm run samples:progress-list",
-    
-    "samples:progress-list": "node --loader ts-node/esm ./samples/progress-list/index.ts",
-    "samples:progress-list-package": "cd samples/progress-list-package && npm install && npm start"
+    "start": "npm run samples:cli",
+    "samples:cli": "node --loader ts-node/esm ./samples/cli-sample/index.ts",
+    "samples:cli-sample-package": "cd samples/cli-sample-package && npm install && npm start"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +27,7 @@
   },
   "peerDependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "tuir": ">=5"
   }
 }

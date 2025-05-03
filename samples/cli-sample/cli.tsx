@@ -1,10 +1,8 @@
 ﻿import React from "react";
 
-import { render } from "../../src/tuir.js";
-import { patchConsole } from "../../src/utils/console-utils.js";
+import { render } from "./tuir.js";
+import { patchConsole, WithProgress, WithConsole } from "./ink-components.js";
 import { Root } from "./Root.js";
-import { WithProgress } from "../../src/components/WithProgress.js";
-import { WithConsole } from "../../src/components/WithConsole.js";
 
 export function cli() {
   patchConsole();
@@ -17,6 +15,7 @@ export function cli() {
     </WithProgress>,
     {
       patchConsole: false,
+      debug: false
     }
   );
 }

@@ -21,11 +21,14 @@ export function StatusNode({
   const { color, icon } = statusIcon(value ?? { state: "unknown" });
   return (
     <Box backgroundColor={backgroundColor}>
-      {value ?
-      value.state == "running" ? (<Spinner label=" " type="dots" speed={2} />) : (
-        <Box backgroundColor={backgroundColor} marginRight={1}>
-          <Text color={color}>{icon}</Text>
-        </Box>
+      {value ? (
+        value.state == "running" ? (
+          <Spinner label=" " type="dots" speed={2} />
+        ) : (
+          <Box backgroundColor={backgroundColor} marginRight={1}>
+            <Text color={color}>{icon}</Text>
+          </Box>
+        )
       ) : (
         <></>
       )}
