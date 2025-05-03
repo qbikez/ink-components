@@ -7,22 +7,19 @@ export function WithConsole({
   children,
   autoRefreshInterval,
 }: { autoRefreshInterval?: number } & PropsWithChildren) {
-  const progress = useProgress();
   useEffect(() => {
     consoleEmitter.on("console", (stream: string, message: string) => {
-      // TODO: it's better to use progressEmitter, as it's the lower-level abstraction
-      // but it always uses logWithoutUpdate. Find a way to hint about the stream type
-      progressEmitter.emit("log", "console", `${stream}: ${message}`);
-      // if (stream === "warn" || stream === "error") {
-      //   progress.log("console", [`${stream}: ${message}`]);
-      // } else {
-      //   progress.logWithoutUpdate("console", [`${stream}: ${message}`]);
-      // }
+      if (stream === "warn" || stream === "error") {
+        progressEmitter.log("console!", `${stream}: ${message}`);
+      } else {
+        progressEmitter.log("console", `${stream}: ${message}`);
+      }
     });
 
     console.log("Console patch: %s %i", "DONE", 1);
   }, []);
 
+  const progress = useProgress();
   useEffect(() => {
     if (autoRefreshInterval) {
       const timer = setInterval(() => {

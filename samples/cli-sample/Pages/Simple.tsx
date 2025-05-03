@@ -1,13 +1,9 @@
 import React, { useEffect } from "react";
-import { Box, Cli, Node } from "../tuir.js";
 import {
-  ProgressVisualiser,
-  Frame,
   ScrollingBox,
   progressEmitter,
   ProgressItemState,
 } from "../ink-components.js";
-import cliBoxes from "cli-boxes";
 
 export function SimpleLog() {
   const [log, setLog] = React.useState<string[]>(["nothing to show"]);

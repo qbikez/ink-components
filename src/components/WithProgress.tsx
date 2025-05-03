@@ -7,7 +7,9 @@ import {
 } from "../utils/ProgressContext.js";
 import { progressEmitter, ProgressItemState } from "../utils/commands.js";
 
-export function WithProgress<TPath extends string | number | symbol>(props: PropsWithChildren) {
+export function WithProgress<TPath extends string | number | symbol>(
+  props: PropsWithChildren
+) {
   const progressState: ProgressContextState<string> = {
     id: 0,
     root: {},
@@ -17,19 +19,25 @@ export function WithProgress<TPath extends string | number | symbol>(props: Prop
   const progress = new ProgressContextType(state, dispatchProgress);
 
   useEffect(() => {
-    progressEmitter.on('log', (path, message) => {
-      progress.logWithoutUpdate(path, [message]);
+    progressEmitter.on("log", (path, message) => {
+      if (path.endsWith("!")) {
+        progress.log(path.substring(0, path.length - 1), [message]);
+      } else {
+        progress.logWithoutUpdate(path, [message]);
+      }
     });
 
-    progressEmitter.on('update', (
-          path: string,
-          state: ProgressItemState,
-          status?: string,
-          details?: string
-        ) => {
-      progress.update(path, state, status, details);
-    });
-
+    progressEmitter.on(
+      "update",
+      (
+        path: string,
+        state: ProgressItemState,
+        status?: string,
+        details?: string
+      ) => {
+        progress.update(path, state, status, details);
+      }
+    );
   }, []);
 
   return (
