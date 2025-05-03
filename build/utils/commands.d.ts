@@ -10,10 +10,12 @@ export type ProgressItemState = "new" | "pending" | "starting" | "running" | "st
 declare interface ProgressEmitter {
     on(event: "log", listener: (path: string, message: string) => void): this;
     on(event: "update", listener: (path: string, state: ProgressItemState, status?: string, details?: string) => void): this;
+    on(event: "command", listener: (command: string, path: string, args: string[]) => void): this;
 }
 declare class ProgressEmitter extends EventEmitter {
     log(path: string, message: string): void;
     update(path: string, state: ProgressItemState, status?: string, details?: string): void;
+    command(path: string, command: string, argsStr: string): void;
 }
 export declare const progressEmitter: ProgressEmitter;
 export {};
