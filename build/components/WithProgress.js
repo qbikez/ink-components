@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect } from "react";
 import { createProgress, ProgressContextType, ProgressContext, } from "../utils/ProgressContext.js";
 import { progressEmitter } from "../utils/commands.js";
 export function WithProgress(props) {
@@ -8,7 +8,7 @@ export function WithProgress(props) {
     };
     const [state, dispatchProgress] = createProgress(progressState);
     const progress = new ProgressContextType(state, dispatchProgress);
-    useMemo(() => {
+    useEffect(() => {
         progressEmitter.on('log', (path, message) => {
             progress.logWithoutUpdate(path, [message]);
         });

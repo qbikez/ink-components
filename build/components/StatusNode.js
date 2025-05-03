@@ -11,9 +11,8 @@ export function StatusNode({ name, value, }) {
     const foregroundColor = isFocus ? "white" : undefined;
     const { color, icon } = statusIcon(value ?? { state: "unknown" });
     return (React.createElement(Box, { backgroundColor: backgroundColor },
-        value ?
-            value.state == "running" ? (React.createElement(Spinner, { label: " ", type: "dots", speed: 2 })) : (React.createElement(Box, { backgroundColor: backgroundColor, marginRight: 1 },
-                React.createElement(Text, { color: color }, icon))) : (React.createElement(React.Fragment, null)),
+        value ? (value.state == "running" ? (React.createElement(Spinner, { label: " ", type: "dots", speed: 2 })) : (React.createElement(Box, { backgroundColor: backgroundColor, marginRight: 1 },
+            React.createElement(Text, { color: color }, icon)))) : (React.createElement(React.Fragment, null)),
         React.createElement(Box, { backgroundColor: backgroundColor },
             React.createElement(Box, { backgroundColor: backgroundColor },
                 React.createElement(Text, { color: foregroundColor }, `${name}`),
