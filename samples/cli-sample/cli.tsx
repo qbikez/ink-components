@@ -23,3 +23,5 @@ export function cli() {
     }
   });
 }
+
+export { commandEmitter, progressEmitter } from "./ink-components.js";
