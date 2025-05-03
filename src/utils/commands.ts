@@ -24,6 +24,7 @@ export type ProgressItemState =
   | "disconnected"
   | "unknown";
 
+
 declare interface ProgressEmitter {
   on(event: "log", listener: (path: string, message: string) => void): this;
   on(
@@ -35,6 +36,7 @@ declare interface ProgressEmitter {
       details?: string
     ) => void
   ): this;
+  on(event: "command", listener: (command: string, path: string, args: string[]) => void): this;
 }
 
 class ProgressEmitter extends EventEmitter {
@@ -49,6 +51,11 @@ class ProgressEmitter extends EventEmitter {
     details?: string
   ): void {
     this.emit("update", path, state, status, details);
+  }
+
+  command(path: string, command: string, argsStr: string): void {
+    const args = JSON.parse(argsStr) as string[];
+    this.emit("command", command, path, args);
   }
 }
 

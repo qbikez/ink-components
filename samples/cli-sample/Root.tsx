@@ -22,14 +22,32 @@ type PagesReturn = ReturnType<typeof usePages>;
 type PagesControl = PagesReturn["control"];
 
 export function Root() {
+  const variants = ["Simple", "MasterDetail"];
+  const [variant, setVariant] = React.useState("simple");
+
+  const { pageView, control: pageControl } = usePages(variants.length);
+
+  usePageNavigation(variants, pageControl);
   useEffect(() => {
-    setTimeout(() => init(), 1000);
-  }, []);
+    const index = variants.indexOf(variant);
+    if (index === -1) {
+      console.warn("Invalid variant selected:", variant);
+      return;
+    }
+    pageControl.goToPage(index);
+  }, [variant]);
 
-  const pageNames = ["Simple", "MasterDetail"];
-  const { pageView, control: pageControl } = usePages(pageNames.length);
-
-  usePageNavigation(pageNames, pageControl);
+  
+  useEffect(() => {
+    progressEmitter.on(
+      "command",
+      (command: string, path: string, args: string[]) => {
+        if (command === "setVariant") {
+          setVariant(args[0]);
+        }
+      }
+    );
+  }, [progressEmitter]);
 
   return (
     <Viewport flexDirection="column">
@@ -38,7 +56,7 @@ export function Root() {
         <MasterDetail />
       </Pages>
       <PageIndicator
-        pageNames={pageNames}
+        pageNames={variants}
         currentPage={pageControl.currentPage}
       />
       <Box marginTop={-1}>
@@ -84,18 +102,4 @@ function usePageNavigation(pageNames: string[], pageControl: PagesControl) {
       pageControl.goToPage(pageIndex - 1);
     }
   });
-}
-
-export function init() {
-  console.log("Initializing application...");
-  console.warn("This is a warning message!");
-
-  progressEmitter.update("root", 'running', "loading something...", "details are very important");
-  progressEmitter.log("root", "this is a log message");
-  progressEmitter.log("console", "progress.log");
-  consoleEmitter.emit("console", "smoke", "manually emitted log message");
-
-  setInterval(() => {
-    console.log("tick");
-  }, 1000);
 }
