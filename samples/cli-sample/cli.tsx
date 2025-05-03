@@ -19,7 +19,7 @@ export function cli() {
     patchConsole: false,
     debug: false,
     ansiEscapeChars: {
-      clearScreen: ansiEscapes.clearTerminal
+      clearScreen: ansiEscapes.clearScreen
     }
   });
 }
