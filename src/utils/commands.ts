@@ -1,3 +1,4 @@
+import { randomUUID, UUID } from "node:crypto";
 import { EventEmitter } from "node:events";
 
 declare interface CommandEmitter {
@@ -5,6 +6,12 @@ declare interface CommandEmitter {
 }
 
 class CommandEmitter extends EventEmitter {
+  public id: UUID;
+  constructor() {
+    super();
+    this.id = randomUUID();
+  }
+  
   invokeCommand(command: string, path: string, args: string[]): void {
     this.emit('invoke', command, path, args);
   }
@@ -40,6 +47,12 @@ declare interface ProgressEmitter {
 }
 
 class ProgressEmitter extends EventEmitter {
+  public id: UUID;
+  constructor() {
+    super();
+    this.id = randomUUID();
+  }
+
   log(path: string, message: string): void {
     this.emit("log", path, message);
   }
