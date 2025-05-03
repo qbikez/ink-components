@@ -8,6 +8,6 @@ export * from "./components/WithConsole.js";
 export * from "./components/WithProgress.js";
 export * from "./components/PageIndicator.js";
 
-export { patchConsole } from "./utils/console-utils.js";
+export * from "./utils/console-utils.js";
 export * from "./utils/commands.js";
 export * from "./utils/ProgressContext.js";
