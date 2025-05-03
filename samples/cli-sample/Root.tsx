@@ -11,20 +11,22 @@ import {
   Viewport,
 } from "./tuir.js";
 import {
-  PageIndicator
+  PageIndicator,
+  progressEmitter
 } from "./ink-components.js";
-import { init } from "./init.js";
-import { SimplePage } from "./Pages/Simple.js";
+import { MasterDetail } from "./Pages/MasterDetail.js";
+import { SimpleLog } from "./Pages/Simple.js";
+import { consoleEmitter } from "../../src/utils/console-utils.js";
 
 type PagesReturn = ReturnType<typeof usePages>;
 type PagesControl = PagesReturn["control"];
 
 export function Root() {
   useEffect(() => {
-    init();
+    setTimeout(() => init(), 1000);
   }, []);
 
-  const pageNames = ["Simple"];
+  const pageNames = ["Simple", "MasterDetail"];
   const { pageView, control: pageControl } = usePages(pageNames.length);
 
   usePageNavigation(pageNames, pageControl);
@@ -32,7 +34,8 @@ export function Root() {
   return (
     <Viewport flexDirection="column">
       <Pages pageView={pageView}>
-        <SimplePage />
+        <SimpleLog />
+        <MasterDetail />
       </Pages>
       <PageIndicator
         pageNames={pageNames}
@@ -81,4 +84,18 @@ function usePageNavigation(pageNames: string[], pageControl: PagesControl) {
       pageControl.goToPage(pageIndex - 1);
     }
   });
+}
+
+export function init() {
+  console.log("Initializing application...");
+  console.warn("This is a warning message!");
+
+  progressEmitter.update("root", 'running', "loading something...", "details are very important");
+  progressEmitter.log("root", "this is a log message");
+  progressEmitter.log("console", "progress.log");
+  consoleEmitter.emit("console", "smoke", "manually emitted log message");
+
+  setInterval(() => {
+    console.log("tick");
+  }, 1000);
 }

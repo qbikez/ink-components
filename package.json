@@ -15,19 +15,19 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "tuir": "https://github.com/qbikez/ink#tuir"
+    "ansi-escapes": "^7.0.0",
+    "cli-boxes": "^4.0.1",
+    "cli-spinners": "^3.2.0",
+    "tuir": "github:qbikez/ink#tuir"
   },
   "devDependencies": {
     "@types/node": "^22.14.1",
     "@types/react": "^18.2.43",
-    "cli-boxes": "^4.0.1",
-    "cli-spinners": "^3.2.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "peerDependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tuir": ">=5"
+    "react-dom": "^18.3.1"
   }
 }
