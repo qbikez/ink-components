@@ -1,14 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Box, measureElement, Text, useIsFocus, useKeymap, } from "../tuir.js";
+import React, { useState } from "react";
+import { Box, Text, useIsFocus, useKeymap, useResponsiveDimensions, } from "../tuir.js";
 import cliBoxes from "cli-boxes";
 import { border } from "../utils/borders.js";
-export function ScrollingBox({ lines = 5, data = [], height = undefined, width = undefined, title = undefined, }) {
-    const [textLines, setTextLines] = useState(lines);
-    const [boxSize, setBoxSize] = useState({ width: 0, height: 0 });
+export function ScrollingBox({ data = [], height = undefined, width = undefined, title = undefined, }) {
+    //const [boxSize, setBoxSize] = useState({ width: 0, height: 0 });
     const [offset, setOffset] = useState(0);
-    const [pageSize, setPageSize] = useState(0);
-    const lineWidth = boxSize.width - 6 - 2;
-    const output = data.flatMap((s, idx) => s.split("\n").flatMap((line) => wrapLine(line.replace("\r", ""), lineWidth, `[${idx}]`.padEnd(6))));
+    const dims = useResponsiveDimensions();
+    const { ref: outputBox, height: boxHeight, width: boxWidth } = dims;
+    const boxSize = {
+        width: boxWidth ?? 0,
+        height: boxHeight ?? 0,
+    };
+    const lineWidth = boxSize.width || 0 - 6 - 2;
+    const pageSize = Math.floor(boxSize.height / 2);
+    const textLines = boxSize.height - 2;
+    const output = data.flatMap((s, idx) => s
+        .split("\n")
+        .flatMap((line) => wrapLine(line.replace("\r", ""), lineWidth, `[${idx}]`.padEnd(6))));
     const [state, dispatch] = React.useReducer((state, action) => {
         switch (action.type) {
             case "scroll":
@@ -43,25 +51,10 @@ export function ScrollingBox({ lines = 5, data = [], height = undefined, width =
     React.useEffect(() => {
         dispatch({ type: "scroll", offset });
     }, [offset]);
-    const outputBox = React.useRef(null);
     const startIdx = state.startIdx ?? Math.max(0, output.length - textLines);
     const isAutoScroll = state.startIdx === undefined;
     const marker = isAutoScroll ? "↓" : "↑";
     const hasFocus = useIsFocus();
-    //const { isShallowFocus, isFocus: pageFocus } = usePage();
-    // TODO: find a better way to get the size of the box
-    // without using a ref or without running each time
-    useEffect(() => {
-        if (!outputBox.current)
-            return;
-        const size = measureElement(outputBox.current);
-        setBoxSize(size);
-        setTextLines(size.height - 2);
-    }, [hasFocus /*, isShallowFocus, pageFocus*/]);
-    useEffect(() => {
-        const newPageSize = Math.floor(boxSize.height / 2);
-        setPageSize(newPageSize);
-    }, [boxSize]);
     return (React.createElement(React.Fragment, null,
         React.createElement(Box, { ref: outputBox, overflowY: "hidden", height: height, width: width, flexDirection: "column", flexGrow: 1 },
             React.createElement(Box, { borderColor: border(hasFocus).borderColor, borderStyle: {

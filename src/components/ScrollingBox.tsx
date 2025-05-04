@@ -20,25 +20,30 @@ type State = {
 type Action = { type: "scroll"; offset: number };
 
 export function ScrollingBox({
-  lines = 5,
   data = [],
   height = undefined,
   width = undefined,
   title = undefined,
 }: {
-  lines?: number;
   data: string[];
   height?: string | number;
   width?: string | number;
   title?: string;
 }) {
-  const [textLines, setTextLines] = useState<number>(lines);
-  const [boxSize, setBoxSize] = useState({ width: 0, height: 0 });
+  //const [boxSize, setBoxSize] = useState({ width: 0, height: 0 });
   const [offset, setOffset] = useState(0);
-  const [pageSize, setPageSize] = useState(0);
 
-  const lineWidth = boxSize.width - 6 - 2;
-
+  const dims = useResponsiveDimensions();
+  const { ref: outputBox, height: boxHeight, width: boxWidth } = dims;
+  const boxSize = {
+    width: boxWidth ?? 0,
+    height: boxHeight ?? 0,
+  }
+  
+  const lineWidth = boxSize.width || 0 - 6 - 2;
+  const pageSize = Math.floor(boxSize.height / 2);
+  const textLines = boxSize.height - 2;
+    
   const output = data.flatMap((s, idx) =>
     s
       .split("\n")
@@ -99,29 +104,7 @@ export function ScrollingBox({
   const marker = isAutoScroll ? "↓" : "↑";
 
   const hasFocus = useIsFocus();
-  //const { isShallowFocus, isFocus: pageFocus } = usePage();
-
-  // TODO: find a better way to get the size of the box
-  // without using a ref or without running each time
-  //const outputBox = React.useRef<DOMElement>(null);
-  const dims = useResponsiveDimensions();
-  const { ref: outputBox, height: boxHeight, width: boxWidth } = dims;
   
-  useEffect(() => {
-    if (!outputBox.current) return;
-    const size = measureElement(outputBox.current);
-    console.log("outputBox resized:", outputBox.current.attributes.ID, boxHeight, boxWidth, size);
-    //const size = dims;
-    if (size.width == undefined || size.height == undefined) return;
-    setBoxSize({ width: size.width, height: size.height });
-    setTextLines(size.height - 2);
-  }, [outputBox, boxHeight, boxWidth, outputBox, hasFocus]);
-
-  useEffect(() => {
-    const newPageSize = Math.floor(boxSize.height / 2);
-    setPageSize(newPageSize);
-  }, [boxSize]);
-
   return (
     <>
       <Box
