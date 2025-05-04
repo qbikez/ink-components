@@ -33,7 +33,11 @@ export declare class ProgressContextType<TPath extends string | number | symbol>
     state: ProgressContextState<TPath>;
     dispatch: React.Dispatch<ProgressAction<TPath>>;
     constructor(state: ProgressContextState<TPath>, dispatch: React.Dispatch<ProgressAction<TPath>>);
-    update(path: TPath, state: ProgressItemState, status?: string, details?: string): void;
+    update(path: TPath, value: {
+        state: ProgressItemState;
+        status?: string;
+        details?: string;
+    }): void;
     log(path: TPath, lines: string[]): void;
     logWithoutUpdate(path: TPath, lines: string[]): void;
 }

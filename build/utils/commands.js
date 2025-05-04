@@ -7,7 +7,7 @@ class CommandEmitter extends EventEmitter {
         this.id = randomUUID();
     }
     invokeCommand(command, path, args) {
-        this.emit('invoke', command, path, args);
+        this.emit("invoke", command, path, args);
     }
 }
 export const commandEmitter = new CommandEmitter();
@@ -20,8 +20,8 @@ class ProgressEmitter extends EventEmitter {
     log(path, message) {
         this.emit("log", path, message);
     }
-    update(path, state, status, details) {
-        this.emit("update", path, state, status, details);
+    update(path, value) {
+        this.emit("update", path, value);
     }
     command(path, command, argsStr) {
         const args = JSON.parse(argsStr);

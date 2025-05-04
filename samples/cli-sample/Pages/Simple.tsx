@@ -13,11 +13,16 @@ export function SimpleLog() {
     };
     const updateListener = (
       path: string,
-      state: ProgressItemState,
-      status?: string,
-      details?: string
+      value: {
+        state: ProgressItemState;
+        status?: string;
+        details?: string;
+      }
     ) => {
-      setLog((prevLog) => [...prevLog, `S[${path}] ${state}: ${status} (${details})`]);
+      setLog((prevLog) => [
+        ...prevLog,
+        `S[${path}] ${value.state}: ${value.status} (${value.details})`,
+      ]);
     };
 
     progressEmitter.on("log", logListener);

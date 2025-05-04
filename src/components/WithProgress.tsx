@@ -1,4 +1,9 @@
-﻿import React, { PropsWithChildren, useEffect, useLayoutEffect, useMemo } from "react";
+﻿import React, {
+  PropsWithChildren,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+} from "react";
 import {
   ProgressContextState,
   createProgress,
@@ -53,11 +58,13 @@ function linkProgressToProgress(
     "update",
     (
       path: string,
-      state: ProgressItemState,
-      status?: string,
-      details?: string
+      value: {
+        state: ProgressItemState;
+        status?: string;
+        details?: string;
+      }
     ) => {
-      progress.update(path, state, status, details);
+      progress.update(path, value);
     }
   );
 }

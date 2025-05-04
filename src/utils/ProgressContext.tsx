@@ -60,18 +60,16 @@ export class ProgressContextType<TPath extends string | number | symbol> {
 
   public update(
     path: TPath,
-    state: ProgressItemState,
-    status?: string,
-    details?: string
+    value: {
+      state: ProgressItemState;
+      status?: string;
+      details?: string;
+    }
   ) {
     this.dispatch({
       type: "update",
       path,
-      value: {
-        state,
-        status,
-        details,
-      },
+      value,
     });
   }
 

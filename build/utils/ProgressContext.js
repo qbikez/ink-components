@@ -7,15 +7,11 @@ export class ProgressContextType {
         this.state = state;
         this.dispatch = dispatch;
     }
-    update(path, state, status, details) {
+    update(path, value) {
         this.dispatch({
             type: "update",
             path,
-            value: {
-                state,
-                status,
-                details,
-            },
+            value,
         });
     }
     log(path, lines) {

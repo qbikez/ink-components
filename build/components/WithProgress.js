@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, } from "react";
 import { createProgress, ProgressContextType, ProgressContext, } from "../utils/ProgressContext.js";
 import { progressEmitter } from "../utils/commands.js";
 export function WithProgress(props) {
@@ -31,8 +31,8 @@ function linkProgressToProgress(progress) {
             progress.logWithoutUpdate(path, [message]);
         }
     });
-    progressEmitter.on("update", (path, state, status, details) => {
-        progress.update(path, state, status, details);
+    progressEmitter.on("update", (path, value) => {
+        progress.update(path, value);
     });
 }
 //# sourceMappingURL=WithProgress.js.map

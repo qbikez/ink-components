@@ -2,7 +2,10 @@ import { randomUUID, UUID } from "node:crypto";
 import { EventEmitter } from "node:events";
 
 declare interface CommandEmitter {
-  on(event: 'invoke', listener: (command: string, path: string, args: string[]) => void): this;
+  on(
+    event: "invoke",
+    listener: (command: string, path: string, args: string[]) => void
+  ): this;
 }
 
 class CommandEmitter extends EventEmitter {
@@ -11,9 +14,9 @@ class CommandEmitter extends EventEmitter {
     super();
     this.id = randomUUID();
   }
-  
+
   invokeCommand(command: string, path: string, args: string[]): void {
-    this.emit('invoke', command, path, args);
+    this.emit("invoke", command, path, args);
   }
 }
 
@@ -31,19 +34,23 @@ export type ProgressItemState =
   | "disconnected"
   | "unknown";
 
-
 declare interface ProgressEmitter {
   on(event: "log", listener: (path: string, message: string) => void): this;
   on(
     event: "update",
     listener: (
       path: string,
-      state: ProgressItemState,
-      status?: string,
-      details?: string
+      value: {
+        state: ProgressItemState;
+        status?: string;
+        details?: string;
+      }
     ) => void
   ): this;
-  on(event: "command", listener: (command: string, path: string, args: string[]) => void): this;
+  on(
+    event: "command",
+    listener: (command: string, path: string, args: string[]) => void
+  ): this;
 }
 
 class ProgressEmitter extends EventEmitter {
@@ -59,11 +66,14 @@ class ProgressEmitter extends EventEmitter {
 
   update(
     path: string,
-    state: ProgressItemState,
-    status?: string,
-    details?: string
+    value: {
+      state: ProgressItemState;
+      status?: string;
+      details?: string;
+      progress?: number;
+    }
   ): void {
-    this.emit("update", path, state, status, details);
+    this.emit("update", path, value);
   }
 
   command(path: string, command: string, argsStr: string): void {
