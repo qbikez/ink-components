@@ -10,7 +10,7 @@ cli({
                 state: "running",
                 status: "beating",
                 details: `beat.${i}`,
-                progress: i / 10,
+                progress: i,
             });
         }, 100);
     },
