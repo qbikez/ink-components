@@ -80,7 +80,7 @@ export function progressReducer(state, action) {
             id: 0,
             state: "new",
             status: "",
-            log: [""]
+            log: [""],
         };
         // creating a new object here means we cannot hold on to the ProgressItem value anywhere else in the code (i.e. when building status tree)
         root[path] = {

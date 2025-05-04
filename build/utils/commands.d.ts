@@ -1,5 +1,6 @@
 import { UUID } from "node:crypto";
 import { EventEmitter } from "node:events";
+import { ProgressUpdate } from "./ProgressContext.js";
 declare interface CommandEmitter {
     on(event: "invoke", listener: (command: string, path: string, args: string[]) => void): this;
 }
@@ -12,23 +13,14 @@ export declare const commandEmitter: CommandEmitter;
 export type ProgressItemState = "new" | "pending" | "starting" | "running" | "stopped" | "done" | "error" | "connected" | "disconnected" | "unknown";
 declare interface ProgressEmitter {
     on(event: "log", listener: (path: string, message: string) => void): this;
-    on(event: "update", listener: (path: string, value: {
-        state: ProgressItemState;
-        status?: string;
-        details?: string;
-    }) => void): this;
+    on(event: "update", listener: (path: string, value: Partial<ProgressUpdate>) => void): this;
     on(event: "command", listener: (command: string, path: string, args: string[]) => void): this;
 }
 declare class ProgressEmitter extends EventEmitter {
     id: UUID;
     constructor();
     log(path: string, message: string): void;
-    update(path: string, value: {
-        state: ProgressItemState;
-        status?: string;
-        details?: string;
-        progress?: number;
-    }): void;
+    update(path: string, value: Partial<ProgressUpdate>): void;
     command(path: string, command: string, argsStr: string): void;
 }
 export declare const progressEmitter: ProgressEmitter;
