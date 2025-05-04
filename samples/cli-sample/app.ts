@@ -1,3 +1,7 @@
 import { cli } from "./cli.js";
 
-cli();
+cli({
+    init: () => {
+        console.log("CLI initialized");
+    }
+});

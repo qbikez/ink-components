@@ -18,17 +18,14 @@ import { consoleEmitter } from "../../src/utils/console-utils.js";
 type PagesReturn = ReturnType<typeof usePages>;
 type PagesControl = PagesReturn["control"];
 
-const VARIANTS = ['simple', 'master-detail'] as const;
-type RootVariant = typeof VARIANTS[number];
+const VARIANTS = ["simple", "master-detail"] as const;
+type RootVariant = (typeof VARIANTS)[number];
 
-export function Root(
-  {
-    init,
-    variant: initialVariant,
-  }: { init?: () => void; variant: RootVariant } = {
-    variant: "simple",
-  }
-) {
+export function Root({
+  init,
+  variant: initialVariant,
+}: { init?: () => void; variant?: RootVariant } = {}) {
+  initialVariant ??= "simple";
   const variants = VARIANTS as unknown as string[];
   const [variant, setVariant] = React.useState(initialVariant);
 
@@ -49,7 +46,7 @@ export function Root(
       "command",
       (command: string, path: string, args: string[]) => {
         if (command === "setVariant") {
-          setVariant(args[0]);
+          setVariant(args[0] as RootVariant);
         }
       }
     );
@@ -59,7 +56,7 @@ export function Root(
     if (init) {
       init();
     }
-  });
+  }, []);
 
   return (
     <Viewport flexDirection="column">

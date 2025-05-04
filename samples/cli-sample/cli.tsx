@@ -11,7 +11,7 @@ export function cli({ init }: { init?: () => void } = {}) {
   var root = (
     <WithProgress>
       <WithConsole autoRefreshInterval={1000}>
-        <Root init={init}/>
+        <Root init={init} />
       </WithConsole>
     </WithProgress>
   )
