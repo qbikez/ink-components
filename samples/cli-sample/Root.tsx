@@ -9,11 +9,10 @@ import {
   useKeymap,
   usePages,
   Viewport,
-} from "./tuir.js";
-import { PageIndicator, progressEmitter } from "./ink-components.js";
+} from "./dependencies/tuir.js";
+import { PageIndicator, progressEmitter } from "./dependencies/ink-components.js";
 import { MasterDetail } from "./Pages/MasterDetail.js";
 import { SimpleLog } from "./Pages/Simple.js";
-import { consoleEmitter } from "../../src/utils/console-utils.js";
 
 type PagesReturn = ReturnType<typeof usePages>;
 type PagesControl = PagesReturn["control"];

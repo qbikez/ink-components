@@ -11,14 +11,14 @@ import {
   useKeymap,
   useNodeMap,
   Viewport,
-} from "../tuir.js";
+} from "../dependencies/tuir.js";
 import {
   useProgress,
   ProgressVisualiser,
   Frame,
   ScrollingBox,
   commandEmitter,
-} from "../ink-components.js";
+} from "../dependencies/ink-components.js";
 import cliBoxes from "cli-boxes";
 
 export function MasterDetail() {

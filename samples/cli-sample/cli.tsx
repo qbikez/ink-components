@@ -1,7 +1,7 @@
 ﻿import React from "react";
 
-import { render } from "./tuir.js";
-import { patchConsole, WithProgress, WithConsole } from "./ink-components.js";
+import { render } from "./dependencies/tuir.js";
+import { patchConsole, WithProgress, WithConsole } from "./dependencies/ink-components.js";
 import { Root } from "./Root.js";
 import ansiEscapes from "ansi-escapes";
 
@@ -24,4 +24,4 @@ export function cli({ init }: { init?: () => void } = {}) {
   });
 }
 
-export { commandEmitter, progressEmitter } from "./ink-components.js";
+export { commandEmitter, progressEmitter } from "./dependencies/ink-components.js";
