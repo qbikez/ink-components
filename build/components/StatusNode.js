@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Text, useListItem } from "../tuir.js";
 import { Spinner } from "./Spinner.js";
+import { ProgressBar } from "./ProgressBar.js";
 export function StatusNode({ name, value, }) {
     const { isFocus, isShallowFocus } = useListItem();
     const backgroundColor = isFocus
@@ -20,10 +21,7 @@ export function StatusNode({ name, value, }) {
                     ": ",
                     value?.status || "",
                     value?.details ? ` | ${value.details}` : "")) : (React.createElement(React.Fragment, null)),
-                React.createElement(Text, { color: foregroundColor },
-                    "| ",
-                    value?.progress,
-                    "%")))));
+                value?.progress ? (React.createElement(ProgressBar, { value: value.progress, width: 10, style: { completedCharacter: '━', remainingCharacter: '━' } })) : (React.createElement(React.Fragment, null))))));
 }
 function statusIcon({ state }) {
     switch (state) {
