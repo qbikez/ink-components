@@ -52,14 +52,6 @@ export function MasterDetail() {
     },
   } satisfies Commands;
 
-  useEffect(() => {
-    progress.update(
-      "main",
-      "connected",
-      "The Details window doesn't know it's height until it's focused. Hit TAB to focus it."
-    );
-  }, []);
-
   return (
     <Box flexDirection="column">
       <Node {...register("list")}>
