@@ -1,4 +1,4 @@
-﻿import React, { PropsWithChildren, useEffect, useMemo } from "react";
+﻿import React, { PropsWithChildren, useEffect, useLayoutEffect, useMemo } from "react";
 import { consoleEmitter } from "../utils/console-utils.js";
 import { useProgress } from "../utils/ProgressContext.js";
 import { progressEmitter } from "../utils/commands.js";
@@ -7,7 +7,7 @@ export function WithConsole({
   children,
   autoRefreshInterval,
 }: { autoRefreshInterval?: number } & PropsWithChildren) {
-  useEffect(() => {
+  useLayoutEffect(() => {
     linkConsoleToProgress();
   }, []);
 

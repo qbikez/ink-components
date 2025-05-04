@@ -1,4 +1,4 @@
-﻿import React, { PropsWithChildren, useEffect, useMemo } from "react";
+﻿import React, { PropsWithChildren, useEffect, useLayoutEffect, useMemo } from "react";
 import {
   ProgressContextState,
   createProgress,
@@ -18,7 +18,7 @@ export function WithProgress<TPath extends string | number | symbol>(
   const [state, dispatchProgress] = createProgress(progressState);
   const progress = new ProgressContextType(state, dispatchProgress);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     linkProgressToProgress(progress);
   }, []);
 

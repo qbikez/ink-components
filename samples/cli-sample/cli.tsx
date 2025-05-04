@@ -5,13 +5,13 @@ import { patchConsole, WithProgress, WithConsole } from "./ink-components.js";
 import { Root } from "./Root.js";
 import ansiEscapes from "ansi-escapes";
 
-export function cli() {
+export function cli({ init }: { init?: () => void } = {}) {
   patchConsole();
 
   var root = (
     <WithProgress>
       <WithConsole autoRefreshInterval={1000}>
-        <Root />
+        <Root init={init}/>
       </WithConsole>
     </WithProgress>
   )
