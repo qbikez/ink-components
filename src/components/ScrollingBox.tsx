@@ -8,6 +8,7 @@ import {
   useKeymap,
   DOMElement,
   usePage,
+  useResponsiveDimensions,
 } from "../tuir.js";
 import cliBoxes from "cli-boxes";
 import { border } from "../utils/borders.js";
@@ -39,7 +40,11 @@ export function ScrollingBox({
   const lineWidth = boxSize.width - 6 - 2;
 
   const output = data.flatMap((s, idx) =>
-    s.split("\n").flatMap((line) => wrapLine(line.replace("\r", ""), lineWidth, `[${idx}]`.padEnd(6)))
+    s
+      .split("\n")
+      .flatMap((line) =>
+        wrapLine(line.replace("\r", ""), lineWidth, `[${idx}]`.padEnd(6))
+      )
   );
 
   const [state, dispatch] = React.useReducer(
@@ -89,21 +94,28 @@ export function ScrollingBox({
     dispatch({ type: "scroll", offset });
   }, [offset]);
 
-  const outputBox = React.useRef<DOMElement>(null);
   const startIdx = state.startIdx ?? Math.max(0, output.length - textLines);
   const isAutoScroll = state.startIdx === undefined;
   const marker = isAutoScroll ? "↓" : "↑";
 
   const hasFocus = useIsFocus();
   //const { isShallowFocus, isFocus: pageFocus } = usePage();
+
   // TODO: find a better way to get the size of the box
   // without using a ref or without running each time
+  //const outputBox = React.useRef<DOMElement>(null);
+  const dims = useResponsiveDimensions();
+  const { ref: outputBox, height: boxHeight, width: boxWidth } = dims;
+  
   useEffect(() => {
     if (!outputBox.current) return;
     const size = measureElement(outputBox.current);
-    setBoxSize(size);
+    console.log("outputBox resized:", outputBox.current.attributes.ID, boxHeight, boxWidth, size);
+    //const size = dims;
+    if (size.width == undefined || size.height == undefined) return;
+    setBoxSize({ width: size.width, height: size.height });
     setTextLines(size.height - 2);
-  }, [hasFocus/*, isShallowFocus, pageFocus*/]);
+  }, [outputBox, boxHeight, boxWidth, outputBox, hasFocus]);
 
   useEffect(() => {
     const newPageSize = Math.floor(boxSize.height / 2);
@@ -144,7 +156,6 @@ export function ScrollingBox({
     </>
   );
 }
-
 
 function wrapLine(line: string, lineWidth: number, prefix?: string): string[] {
   prefix = prefix || "";

@@ -1,16 +1,12 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Cli,
   Commands,
   KeyMap,
   Node,
-  StdinState,
-  Text,
   useKeymap,
   useNodeMap,
-  Viewport,
 } from "../dependencies/tuir.js";
 import {
   useProgress,
