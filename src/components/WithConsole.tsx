@@ -8,15 +8,7 @@ export function WithConsole({
   autoRefreshInterval,
 }: { autoRefreshInterval?: number } & PropsWithChildren) {
   useEffect(() => {
-    consoleEmitter.on("console", (stream: string, message: string) => {
-      if (stream === "warn" || stream === "error") {
-        progressEmitter.log("console!", `${stream}: ${message}`);
-      } else {
-        progressEmitter.log("console", `${stream}: ${message}`);
-      }
-    });
-
-    console.log("Console patch: %s %i", "DONE", 1);
+    linkConsoleToProgress();
   }, []);
 
   const progress = useProgress();
@@ -36,3 +28,15 @@ export function WithConsole({
 
   return <>{children}</>;
 }
+function linkConsoleToProgress() {
+  consoleEmitter.on("console", (stream: string, message: string) => {
+    if (stream === "warn" || stream === "error") {
+      progressEmitter.log("console!", `${stream}: ${message}`);
+    } else {
+      progressEmitter.log("console", `${stream}: ${message}`);
+    }
+  });
+
+  console.log("Console patch: %s %i", "DONE", 1);
+}
+
