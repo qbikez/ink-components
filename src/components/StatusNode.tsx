@@ -43,6 +43,9 @@ export function StatusNode({
           ) : (
             <></>
           )}
+          <Text color={foregroundColor}>
+            | {value?.progress}%
+          </Text>
         </Box>
       </Box>
     </Box>

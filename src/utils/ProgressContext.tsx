@@ -11,13 +11,18 @@ export type ProgressPath =
   | "main|stdin"
   | "console";
 
-export type ProgressItem = {
-  id: number;
+  
+export type ProgressUpdate = {
   state: ProgressItemState;
   status: string;
   details?: string;
-  log: string[];
+  progress?: number;
 };
+
+export type ProgressItem = {
+  id: number;
+  log: string[];
+} & ProgressUpdate;
 
 export type Progress<TPath extends string | number | symbol> = {
   [key in TPath]?: ProgressItem;
@@ -31,7 +36,7 @@ export type ProgressContextState<TPath extends string | number | symbol> = {
 type UpdateAction<TPath extends string | number | symbol> = {
   type: "update";
   path: TPath;
-  value: Partial<Omit<ProgressItem, "log">>;
+  value: Partial<ProgressUpdate>;
 };
 type LogAction<TPath extends string | number | symbol> = {
   type: "log";
@@ -60,11 +65,7 @@ export class ProgressContextType<TPath extends string | number | symbol> {
 
   public update(
     path: TPath,
-    value: {
-      state: ProgressItemState;
-      status?: string;
-      details?: string;
-    }
+    value: Partial<ProgressUpdate>
   ) {
     this.dispatch({
       type: "update",

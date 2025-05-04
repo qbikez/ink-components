@@ -1,14 +1,10 @@
-﻿import React, {
-  PropsWithChildren,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-} from "react";
+﻿import React, { PropsWithChildren, useLayoutEffect } from "react";
 import {
   ProgressContextState,
   createProgress,
   ProgressContextType,
   ProgressContext,
+  ProgressUpdate,
 } from "../utils/ProgressContext.js";
 import { progressEmitter, ProgressItemState } from "../utils/commands.js";
 
@@ -56,14 +52,7 @@ function linkProgressToProgress(
 
   progressEmitter.on(
     "update",
-    (
-      path: string,
-      value: {
-        state: ProgressItemState;
-        status?: string;
-        details?: string;
-      }
-    ) => {
+    (path: string, value: Partial<ProgressUpdate>) => {
       progress.update(path, value);
     }
   );

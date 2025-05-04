@@ -1,5 +1,6 @@
 import { randomUUID, UUID } from "node:crypto";
 import { EventEmitter } from "node:events";
+import { ProgressUpdate } from "./ProgressContext.js";
 
 declare interface CommandEmitter {
   on(
@@ -40,11 +41,7 @@ declare interface ProgressEmitter {
     event: "update",
     listener: (
       path: string,
-      value: {
-        state: ProgressItemState;
-        status?: string;
-        details?: string;
-      }
+      value: Partial<ProgressUpdate>
     ) => void
   ): this;
   on(
@@ -66,12 +63,7 @@ class ProgressEmitter extends EventEmitter {
 
   update(
     path: string,
-    value: {
-      state: ProgressItemState;
-      status?: string;
-      details?: string;
-      progress?: number;
-    }
+    value: Partial<ProgressUpdate>
   ): void {
     this.emit("update", path, value);
   }
