@@ -27,7 +27,7 @@ export function ProgressVisualiser({
 }: {
   progress: ProgressContextType<string>;
   onItemSelected?: (item: string) => void;
-  variant?: Variant;
+  variant?: ProgressVisualiserVariant;
 }): React.ReactNode {
   
   switch (variant) {
