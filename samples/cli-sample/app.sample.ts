@@ -6,7 +6,12 @@ cli({
         let i = 0;
         setInterval(() => {
             console.log(`heartbeat ${i++}`);
-            progressEmitter.update("console", {
+            progressEmitter.update(`beat|${i}`, {
+                state: "running",
+                status: "beating",
+                details: `beat.${i}`,
+            });
+            progressEmitter.update(`beat`, {
                 state: "running",
                 status: "beating",
                 details: `beat.${i}`,
