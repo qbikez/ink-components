@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { EventEmitter } from "node:events";
-class CommandEmitter extends EventEmitter {
+export class CommandEmitter extends EventEmitter {
     id;
     constructor() {
         super();
@@ -10,8 +10,7 @@ class CommandEmitter extends EventEmitter {
         this.emit("invoke", command, path, args);
     }
 }
-export const commandEmitter = new CommandEmitter();
-class ProgressEmitter extends EventEmitter {
+export class ProgressEmitter extends EventEmitter {
     id;
     constructor() {
         super();
@@ -29,4 +28,5 @@ class ProgressEmitter extends EventEmitter {
     }
 }
 export const progressEmitter = new ProgressEmitter();
+export const commandEmitter = new CommandEmitter();
 //# sourceMappingURL=commands.js.map
