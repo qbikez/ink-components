@@ -36,16 +36,13 @@ export function TreeView<TItem = unknown>({
   onItemSelected?: (item: TreeNode<TItem>) => void;
   renderNode: (node: TreeNode<TItem>) => React.ReactNode;
 }) {
+  
   const nodes = useMemo(() => {
-    console.log("treeview root");
+    //console.log("treeview root");
     return flatten(root, 0);
   }, [root]);
-  useEffect(() => {
-    console.log("treeview root modified");
-    setItems(flatten(root, 0));
-  }, [root]);
 
-  console.log('render treeview');
+  //console.log('render treeview');
   //const [nodes, setNodes] = useState(() => flatten(root, 0));
   //const nodes = flatten(root, 0);
   const { listView, items, setItems, control } = useList(nodes, {
@@ -55,6 +52,11 @@ export function TreeView<TItem = unknown>({
     centerScroll: false,
     fallthrough: false,
   });
+
+    useEffect(() => {
+    //console.log("treeview root modified");
+    setItems(flatten(root, 0));
+  }, [root]);
 
   const keyMap = {
     upArrow: { key: "up" },

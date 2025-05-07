@@ -2,14 +2,14 @@ import { randomUUID, UUID } from "node:crypto";
 import { EventEmitter } from "node:events";
 import { ProgressUpdate } from "./ProgressContext.js";
 
-declare interface CommandEmitter {
+export interface CommandEmitter {
   on(
     event: "invoke",
     listener: (command: string, path: string, args: string[]) => void
   ): this;
 }
 
-class CommandEmitter extends EventEmitter {
+export class CommandEmitter extends EventEmitter {
   public id: UUID;
   constructor() {
     super();
@@ -20,8 +20,6 @@ class CommandEmitter extends EventEmitter {
     this.emit("invoke", command, path, args);
   }
 }
-
-export const commandEmitter: CommandEmitter = new CommandEmitter();
 
 export type ProgressItemState =
   | "new"
@@ -35,7 +33,7 @@ export type ProgressItemState =
   | "disconnected"
   | "unknown";
 
-declare interface ProgressEmitter {
+export interface ProgressEmitter {
   on(event: "log", listener: (path: string, message: string) => void): this;
   on(
     event: "update",
@@ -50,7 +48,7 @@ declare interface ProgressEmitter {
   ): this;
 }
 
-class ProgressEmitter extends EventEmitter {
+export class ProgressEmitter extends EventEmitter {
   public id: UUID;
   constructor() {
     super();
@@ -75,3 +73,4 @@ class ProgressEmitter extends EventEmitter {
 }
 
 export const progressEmitter: ProgressEmitter = new ProgressEmitter();
+export const commandEmitter: CommandEmitter = new CommandEmitter();
