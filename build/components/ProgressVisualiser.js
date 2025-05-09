@@ -12,19 +12,21 @@ export function ProgressVisualiser({ progress, onItemSelected, variant = "listVi
         default:
             throw new Error(`Unknown variant: ${variant}`);
     }
-    return RenderTreeView(progress);
 }
 function RenderTreeView(progress, onItemSelected) {
-    const [selectedItem, setSelectedItem] = useState();
     const [tree, setTree] = useState(buildTree(progress.state, "|"));
-    useEffect(() => {
-        console.log(`progress changed id=${progress.state.id} keys=${Object.keys(progress.state)}`);
-        setTree((old) => {
-            const updatedTree = buildTree(progress.state, "|", old);
-            // we need to return a new object to trigger a re-render
-            return { ...updatedTree };
-        });
-    }, [progress]);
+    // useEffect(() => {
+    //   console.log(
+    //     `progress changed id=${progress.state.id} keys=${Object.keys(
+    //       progress.state
+    //     )}`
+    //   );
+    //   setTree((old) => {
+    //     const updatedTree = buildTree(progress.state, "|", old);
+    //     // we need to return a new object to trigger a re-render
+    //     return { ...updatedTree };
+    //   });
+    // }, [progress]);
     return (React.createElement(TreeView, { root: tree, onItemSelected: (item) => onItemSelected?.(item.fullName), renderNode: (node) => (React.createElement(Box, null,
             React.createElement(StatusNode, { name: node.name, value: node.value }))) }));
 }

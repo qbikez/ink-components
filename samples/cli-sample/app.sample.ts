@@ -11,7 +11,7 @@ cli.cli({
       progress: 99,
     });
   },
-  variant: "master-detail",
+  variant: "treeview",
 });
 
 // cli({

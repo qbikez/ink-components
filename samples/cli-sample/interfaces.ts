@@ -9,7 +9,7 @@ export type ProgressItemState =
   | "connected"
   | "disconnected"
   | "unknown";
-  
+
 type ProgressUpdate = {
   state: ProgressItemState;
   status: string;
@@ -18,15 +18,11 @@ type ProgressUpdate = {
 };
 
 interface ProgressEmitter {
-  on(event: "log", listener: (path: string, message: string) => void): this;
-  on(
-    event: "update",
-    listener: (path: string, value: Partial<ProgressUpdate>) => void
-  ): this;
-  on(
-    event: "command",
-    listener: (command: string, path: string, args: string[]) => void
-  ): this;
+  log(path: string, message: string): void;
+
+  update(path: string, value: Partial<ProgressUpdate>): void;
+
+  command(path: string, command: string, argsStr: string): void;
 }
 
 interface CommandEmitter {

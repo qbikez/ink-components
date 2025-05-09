@@ -38,30 +38,27 @@ export function ProgressVisualiser({
     default:
       throw new Error(`Unknown variant: ${variant}`);
   }
-
-  return RenderTreeView(progress);
 }
 
 function RenderTreeView(
   progress: ProgressContextType<string>,
   onItemSelected?: (item: string) => void
 ) {
-  const [selectedItem, setSelectedItem] = useState<TreeNode<ProgressItem>>();
   const [tree, setTree] = useState<TreeNode<ProgressItem>>(
     buildTree(progress.state, "|")
   );
-  useEffect(() => {
-    console.log(
-      `progress changed id=${progress.state.id} keys=${Object.keys(
-        progress.state
-      )}`
-    );
-    setTree((old) => {
-      const updatedTree = buildTree(progress.state, "|", old);
-      // we need to return a new object to trigger a re-render
-      return { ...updatedTree };
-    });
-  }, [progress]);
+  // useEffect(() => {
+  //   console.log(
+  //     `progress changed id=${progress.state.id} keys=${Object.keys(
+  //       progress.state
+  //     )}`
+  //   );
+  //   setTree((old) => {
+  //     const updatedTree = buildTree(progress.state, "|", old);
+  //     // we need to return a new object to trigger a re-render
+  //     return { ...updatedTree };
+  //   });
+  // }, [progress]);
 
   return (
     <TreeView<ProgressItem>
