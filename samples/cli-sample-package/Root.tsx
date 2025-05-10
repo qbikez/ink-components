@@ -47,7 +47,8 @@ export function MainPage() {
       process.exit(0);
     },
     DEFAULT: async (args) => {
-      console.warn("Command invoked!", args);
+      const [command, ...rest] = args;
+      commandEmitter.invokeCommand(command, selectedItem, rest);
     },
   } satisfies Commands;
 

@@ -1,17 +1,34 @@
 import cli from "./cli.js";
 
+cli.commandEmitter.on("invoke", (command, path, args) => {
+  cli.progressEmitter.log("commands", `Command: [${path}]:${command} [${args}](${args.length})`);
+});
+
 cli.cli({
   init: () => {
     console.log("Hello World!");
     cli.progressEmitter.log(
       "init",
-      "App initialized. Starting progress..."
+      "App initalizing..."
     );
     cli.progressEmitter.update("init", {
-      progress: 100,
+      progress: 5,
     });
+
+    setTimeout(() => {
+      cli.progressEmitter.log(
+      "init",
+      "Init DONE."
+    );
+      cli.progressEmitter.update("init", {
+        state: "done",
+        status: "Running",
+        progress: 100,
+      });
+    }
+    , 1000);
   },
-  variant: "treeview",
+  variant: "master-detail",
 });
 
 // cli({
