@@ -5,10 +5,10 @@ cli.cli({
     console.log("Hello World!");
     cli.progressEmitter.log(
       "init",
-      `progress: ${cli.progressEmitter.id} command:${cli.commandEmitter.id}`
+      "App initialized. Starting progress..."
     );
     cli.progressEmitter.update("init", {
-      progress: 99,
+      progress: 100,
     });
   },
   variant: "treeview",
