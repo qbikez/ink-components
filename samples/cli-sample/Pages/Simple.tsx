@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import {
+  ProgressUpdate,
   ScrollingBox,
   progressEmitter,
 } from "../dependencies/ink-components.js";
-import { ProgressUpdate } from "../interfaces.js";
 
 export function SimpleLog() {
   const [log, setLog] = React.useState<string[]>(["nothing to show"]);
@@ -13,7 +13,7 @@ export function SimpleLog() {
     };
     const updateListener = (
       path: string,
-      value: Partial<ProgressUpdate>
+      value: ProgressUpdate
     ) => {
       setLog((prevLog) => [
         ...prevLog,

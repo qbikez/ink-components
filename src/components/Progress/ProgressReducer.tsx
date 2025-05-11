@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { Progress, ProgressItem, ProgressUpdate } from "./progress.js";
+import { createProgressItem, Progress, ProgressItem, ProgressUpdate } from "./progress.js";
 
 export type ProgressWrapper<TPath extends string | number | symbol> = {
   root: Progress<TPath>;
@@ -9,7 +9,7 @@ export type ProgressWrapper<TPath extends string | number | symbol> = {
 type UpdateAction<TPath extends string | number | symbol> = {
   type: "update";
   path: TPath;
-  value: Partial<ProgressUpdate>;
+  value: ProgressUpdate;
 };
 type LogAction<TPath extends string | number | symbol> = {
   type: "log";
@@ -36,7 +36,7 @@ export class ProgressReducer<TPath extends string | number | symbol> {
     this.dispatch = dispatch;
   }
 
-  public update(path: TPath, value: Partial<ProgressUpdate>) {
+  public update(path: TPath, value: ProgressUpdate) {
     this.dispatch({
       type: "update",
       path,
@@ -53,14 +53,7 @@ export class ProgressReducer<TPath extends string | number | symbol> {
   }
 
   logWithoutUpdate(path: TPath, lines: string[]) {
-    if (!this.state.root[path]) {
-      this.state.root[path] = {
-        id: 0,
-        log: [],
-        status: "",
-        state: "new",
-      };
-    }
+    this.state.root[path] ??= createProgressItem();
     const log = this.state.root[path]!.log;
 
     this.state.root[path]!.log = [...log, ...lines];
@@ -86,12 +79,7 @@ export function progressReducer<TPath extends string | number | symbol>(
 
   function log(action: LogAction<TPath>) {
     const { lines, path } = action;
-    const item: ProgressItem = root[path] ?? {
-      state: "new",
-      status: "",
-      log: [],
-      id: 0,
-    };
+    const item: ProgressItem = root[path] ?? createProgressItem();
 
     // avoid to much object copying and just push lines to existing log array
     item.log.push(...lines);
@@ -106,12 +94,7 @@ export function progressReducer<TPath extends string | number | symbol>(
 
   function update(action: UpdateAction<TPath>) {
     const { path, value } = action;
-    const item: ProgressItem = root[path] ?? {
-      id: 0,
-      state: "new",
-      status: "",
-      log: [""],
-    };
+    const item: ProgressItem = root[path] ?? createProgressItem();
 
     // creating a new object here means we cannot hold on to the ProgressItem value anywhere else in the code (i.e. when building status tree)
     root[path] = {

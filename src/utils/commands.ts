@@ -29,7 +29,7 @@ export interface ProgressEmitter {
     event: "update",
     listener: (
       path: string,
-      value: Partial<ProgressUpdate>
+      value: ProgressUpdate
     ) => void
   ): this;
   on(
@@ -51,7 +51,7 @@ export class ProgressEmitter extends EventEmitter {
 
   update(
     path: string,
-    value: Partial<ProgressUpdate>
+    value: ProgressUpdate
   ): void {
     this.emit("update", path, value);
   }

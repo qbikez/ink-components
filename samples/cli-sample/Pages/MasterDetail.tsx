@@ -24,6 +24,7 @@ export function MasterDetail({
   variant: ProgressVisualiserVariant;
 }) {
   const progress = useProgress();
+  
 
   const nodeMap = [["list"], ["log"]];
   const { register, control } = useNodeMap(nodeMap, { navigation: "none" });

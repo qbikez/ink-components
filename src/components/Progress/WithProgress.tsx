@@ -42,7 +42,7 @@ function linkProgressToEmitter(
 
   progressEmitter.on(
     "update",
-    (path: string, value: Partial<ProgressUpdate>) => {
+    (path: string, value: ProgressUpdate) => {
       progress.update(path, value);
     }
   );

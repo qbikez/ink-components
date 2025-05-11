@@ -7,6 +7,7 @@ export * from "./components/useSpinner.js";
 export * from "./components/WithConsole.js";
 export * from "./components/Progress/WithProgress.js";
 export * from "./components/Progress/useProgress.js";
+export * from "./components/Progress/progress.js";
 export * from "./components/PageIndicator.js";
 export * from "./components/TreeView.js";
 
