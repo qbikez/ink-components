@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import {
   ScrollingBox,
   progressEmitter,
-  ProgressItemState,
-  ProgressUpdate,
 } from "../dependencies/ink-components.js";
+import { ProgressUpdate } from "../interfaces.js";
 
 export function SimpleLog() {
   const [log, setLog] = React.useState<string[]>(["nothing to show"]);

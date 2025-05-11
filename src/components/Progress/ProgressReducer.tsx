@@ -1,34 +1,7 @@
-﻿import React, { useReducer } from "react";
-import { createContext } from "react";
-import { EventEmitter } from "node:events";
-import { ProgressItemState } from "./commands.js";
+import React, { useReducer } from "react";
+import { Progress, ProgressItem, ProgressUpdate } from "./progress.js";
 
-export type ProgressPath =
-  | "main|signalR"
-  | "server"
-  | "client"
-  | "main"
-  | "main|stdin"
-  | "console";
-
-  
-export type ProgressUpdate = {
-  state: ProgressItemState;
-  status: string;
-  details?: string;
-  progress?: number;
-};
-
-export type ProgressItem = {
-  id: number;
-  log: string[];
-} & ProgressUpdate;
-
-export type Progress<TPath extends string | number | symbol> = {
-  [key in TPath]?: ProgressItem;
-};
-
-export type ProgressContextState<TPath extends string | number | symbol> = {
+export type ProgressWrapper<TPath extends string | number | symbol> = {
   root: Progress<TPath>;
   id: number;
 };
@@ -51,22 +24,19 @@ export type ProgressAction<TPath extends string | number | symbol> =
   | LogAction<TPath>
   | RefreshAction;
 
-export class ProgressContextType<TPath extends string | number | symbol> {
-  public state: ProgressContextState<TPath>;
+export class ProgressReducer<TPath extends string | number | symbol> {
+  public state: ProgressWrapper<TPath>;
   public dispatch: React.Dispatch<ProgressAction<TPath>>;
 
   constructor(
-    state: ProgressContextState<TPath>,
+    state: ProgressWrapper<TPath>,
     dispatch: React.Dispatch<ProgressAction<TPath>>
   ) {
     this.state = state;
     this.dispatch = dispatch;
   }
 
-  public update(
-    path: TPath,
-    value: Partial<ProgressUpdate>
-  ) {
+  public update(path: TPath, value: Partial<ProgressUpdate>) {
     this.dispatch({
       type: "update",
       path,
@@ -97,32 +67,11 @@ export class ProgressContextType<TPath extends string | number | symbol> {
   }
 }
 
-export const ProgressContext = createContext(
-  null as any as ProgressContextType<ProgressPath | string>
-);
-
-export const ProgressItemContext = createContext<ProgressItem | undefined>(
-  undefined
-);
-
-export function useProgress() {
-  const context = React.useContext(ProgressContext);
-  if (context === null) {
-    throw new Error("useProgress must be used within a ProgressProvider");
-  }
-  return context;
-}
-
-export function createProgress<TPath extends string | number | symbol>(
-  progressState: ProgressContextState<TPath>
-) {
-  return useReducer(progressReducer, progressState);
-}
 
 export function progressReducer<TPath extends string | number | symbol>(
-  state: ProgressContextState<TPath>,
+  state: ProgressWrapper<TPath>,
   action: ProgressAction<TPath>
-): ProgressContextState<TPath> {
+): ProgressWrapper<TPath> {
   //console.log("Progress reducer", action);
   const { root } = state;
   switch (action.type) {
@@ -173,4 +122,19 @@ export function progressReducer<TPath extends string | number | symbol>(
 
     return { root, id: state.id + 1 };
   }
+}
+
+
+export function createProgress<TPath extends string | number | symbol>(
+  initialState?: ProgressWrapper<TPath>
+) {
+  initialState ??= {
+    id: 0,
+    root: {},
+  };
+
+  const [state, dispatch] = useReducer(progressReducer, initialState);
+  const progress = new ProgressReducer(state, dispatch);
+
+  return progress;
 }

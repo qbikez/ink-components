@@ -1,10 +1,8 @@
 import React from "react";
 import { Box, Text, useListItem, Color } from "../tuir.js";
-import { ProgressItem } from "../utils/ProgressContext.js";
-import { ProgressItemState } from "../utils/commands.js";
 import { Spinner } from "./Spinner.js";
 import { ProgressBar } from "./ProgressBar.js";
-import figures from "figures";
+import { ProgressItem, ProgressItemState } from "./Progress/progress.js";
 
 export function StatusNode({
   name,

@@ -1,6 +1,6 @@
 import { randomUUID, UUID } from "node:crypto";
 import { EventEmitter } from "node:events";
-import { ProgressUpdate } from "./ProgressContext.js";
+import { ProgressUpdate } from "../components/Progress/progress.js";
 
 export interface CommandEmitter {
   on(
@@ -21,17 +21,7 @@ export class CommandEmitter extends EventEmitter {
   }
 }
 
-export type ProgressItemState =
-  | "new"
-  | "pending"
-  | "starting"
-  | "running"
-  | "stopped"
-  | "done"
-  | "error"
-  | "connected"
-  | "disconnected"
-  | "unknown";
+
 
 export interface ProgressEmitter {
   on(event: "log", listener: (path: string, message: string) => void): this;
