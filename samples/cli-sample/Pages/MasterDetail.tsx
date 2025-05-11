@@ -5,6 +5,7 @@ import {
   Commands,
   KeyMap,
   Node,
+  Text,
   useKeymap,
   useNodeMap,
 } from "../dependencies/tuir.js";
@@ -15,6 +16,7 @@ import {
   ScrollingBox,
   commandEmitter,
   ProgressVisualiserVariant,
+  ProgressItem,
 } from "../dependencies/ink-components.js";
 import cliBoxes from "cli-boxes";
 
@@ -24,7 +26,6 @@ export function MasterDetail({
   variant: ProgressVisualiserVariant;
 }) {
   const progress = useProgress();
-  
 
   const nodeMap = [["list"], ["log"]];
   const { register, control } = useNodeMap(nodeMap, { navigation: "none" });
@@ -61,6 +62,7 @@ export function MasterDetail({
 
   return (
     <Box flexDirection="column">
+      <CommandList item={selectedProgress} />
       <Node {...register("list")}>
         <Frame height={10} borderStyle={{ ...cliBoxes.doubleSingle }}>
           <ProgressVisualiser
@@ -80,6 +82,29 @@ export function MasterDetail({
         </Frame>
       </Node>
       <Cli commands={commands}></Cli>
+    </Box>
+  );
+}
+
+function CommandList({ item }: { item: ProgressItem | undefined }) {
+  if (!item) {
+    return <Text color="red">No item selected</Text>;
+  }
+
+  return (
+    <Box flexDirection="row" columnGap={0}>
+      <Text color="green">Commands: </Text>
+      {item.commands?.map((command, index) => {
+        return (
+          <Box key={index} flexDirection="row">
+            <Text key={index} color="blue">
+              {command.key}: 
+            </Text>
+            <Text color="gray">{command.name}</Text>
+            <Text> | </Text>
+          </Box>
+        );
+      })}
     </Box>
   );
 }

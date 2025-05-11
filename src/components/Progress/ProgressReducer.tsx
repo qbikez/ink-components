@@ -1,5 +1,11 @@
-import React, { useReducer } from "react";
-import { createProgressItem, Progress, ProgressItem, ProgressUpdate } from "./progress.js";
+import React, { act, useReducer } from "react";
+import {
+  CommandDescription,
+  createProgressItem,
+  Progress,
+  ProgressItem,
+  ProgressUpdate,
+} from "./progress.js";
 
 export type ProgressWrapper<TPath extends string | number | symbol> = {
   root: Progress<TPath>;
@@ -19,10 +25,17 @@ type LogAction<TPath extends string | number | symbol> = {
 type RefreshAction = {
   type: "refresh";
 };
+type SetCommandsAction<TPath extends string | number | symbol> = {
+  type: "setCommands";
+  path: TPath;
+  commands: CommandDescription[];
+};
+
 export type ProgressAction<TPath extends string | number | symbol> =
   | UpdateAction<TPath>
   | LogAction<TPath>
-  | RefreshAction;
+  | RefreshAction
+  | SetCommandsAction<TPath>;
 
 export class ProgressReducer<TPath extends string | number | symbol> {
   public state: ProgressWrapper<TPath>;
@@ -52,6 +65,14 @@ export class ProgressReducer<TPath extends string | number | symbol> {
     });
   }
 
+  public setCommands(path: TPath, commands: CommandDescription[]) {
+    this.dispatch({
+      type: "setCommands",
+      path,
+      commands,
+    });
+  }
+
   logWithoutUpdate(path: TPath, lines: string[]) {
     this.state.root[path] ??= createProgressItem();
     const log = this.state.root[path]!.log;
@@ -59,7 +80,6 @@ export class ProgressReducer<TPath extends string | number | symbol> {
     this.state.root[path]!.log = [...log, ...lines];
   }
 }
-
 
 export function progressReducer<TPath extends string | number | symbol>(
   state: ProgressWrapper<TPath>,
@@ -73,6 +93,8 @@ export function progressReducer<TPath extends string | number | symbol>(
       return update(action);
     case "log":
       return log(action);
+    case "setCommands":
+      return setCommands(action);
     case "refresh":
       return { ...state };
   }
@@ -105,8 +127,24 @@ export function progressReducer<TPath extends string | number | symbol>(
 
     return { root, id: state.id + 1 };
   }
-}
 
+  function setCommands(
+    action: SetCommandsAction<TPath>
+  ) {
+    const { path, commands } = action;
+    const item: ProgressItem = root[path] ?? createProgressItem();
+
+    item.commands = commands;
+
+     root[path] = {
+      ...item,
+      commands,
+      id: item.id + 1,
+    };
+
+    return { root, id: state.id + 1 };
+  }
+}
 
 export function createProgress<TPath extends string | number | symbol>(
   initialState?: ProgressWrapper<TPath>

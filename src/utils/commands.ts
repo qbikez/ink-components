@@ -1,6 +1,9 @@
 import { randomUUID, UUID } from "node:crypto";
 import { EventEmitter } from "node:events";
-import { ProgressUpdate } from "../components/Progress/progress.js";
+import {
+  CommandDescription,
+  ProgressUpdate,
+} from "../components/Progress/progress.js";
 
 export interface CommandEmitter {
   on(
@@ -21,24 +24,30 @@ export class CommandEmitter extends EventEmitter {
   }
 }
 
-
+export interface IProgressEmitter {
+  log(path: string, message: string): void;
+  update(path: string, value: ProgressUpdate): void;
+  command(path: string, command: string, argsStr: string): void;
+  setCommands(path: string, commands: CommandDescription[]): void;
+}
 
 export interface ProgressEmitter {
   on(event: "log", listener: (path: string, message: string) => void): this;
   on(
     event: "update",
-    listener: (
-      path: string,
-      value: ProgressUpdate
-    ) => void
+    listener: (path: string, value: ProgressUpdate) => void
   ): this;
   on(
     event: "command",
     listener: (command: string, path: string, args: string[]) => void
   ): this;
+  on(
+    event: "setCommands",
+    listener: (path: string, commands: CommandDescription[]) => void
+  ): this;
 }
 
-export class ProgressEmitter extends EventEmitter {
+export class ProgressEmitter extends EventEmitter implements IProgressEmitter {
   public id: UUID;
   constructor() {
     super();
@@ -49,16 +58,17 @@ export class ProgressEmitter extends EventEmitter {
     this.emit("log", path, message);
   }
 
-  update(
-    path: string,
-    value: ProgressUpdate
-  ): void {
+  update(path: string, value: ProgressUpdate): void {
     this.emit("update", path, value);
   }
 
   command(path: string, command: string, argsStr: string): void {
     const args = JSON.parse(argsStr) as string[];
     this.emit("command", command, path, args);
+  }
+
+  setCommands(path: string, commands: CommandDescription[]): void {
+    this.emit("setCommands", path, commands);
   }
 }
 

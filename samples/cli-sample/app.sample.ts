@@ -13,8 +13,20 @@ cli.cli({
     );
     cli.progressEmitter.update("init", {
       progress: 5,
-    });
-
+    })
+    cli.progressEmitter.setCommands("init", [
+      {
+        name: "start",
+        description: "Start the app",
+        key: "s",
+      },
+      {
+        name: "stop",
+        description: "Stop the app",
+        key: "x",
+      }]
+    );
+    
     setTimeout(() => {
       cli.progressEmitter.log(
       "init",

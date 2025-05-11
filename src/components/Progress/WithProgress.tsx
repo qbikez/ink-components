@@ -46,4 +46,8 @@ function linkProgressToEmitter(
       progress.update(path, value);
     }
   );
+
+  progressEmitter.on("setCommands", (path, commands) => {
+    progress.setCommands(path, commands);
+  });
 }
