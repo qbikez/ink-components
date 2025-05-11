@@ -1,6 +1,7 @@
 import React, { useLayoutEffect } from "react";
-import { createProgress, ProgressContext, } from "./Progress/ProgressContext.js";
-import { progressEmitter } from "../utils/commands.js";
+import { createProgress } from "./ProgressReducer.js";
+import { progressEmitter } from "../../utils/commands.js";
+import { ProgressContext } from "./ProgressContext.js";
 export function WithProgress(props) {
     const progress = createProgress();
     useLayoutEffect(() => {
@@ -28,6 +29,9 @@ function linkProgressToEmitter(progress) {
     });
     progressEmitter.on("update", (path, value) => {
         progress.update(path, value);
+    });
+    progressEmitter.on("setCommands", (path, commands) => {
+        progress.setCommands(path, commands);
     });
 }
 //# sourceMappingURL=WithProgress.js.map

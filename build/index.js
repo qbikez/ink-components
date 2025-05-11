@@ -5,10 +5,12 @@ export * from "./components/Spinner.js";
 export * from "./components/StatusNode.js";
 export * from "./components/useSpinner.js";
 export * from "./components/WithConsole.js";
-export * from "./components/WithProgress.js";
+export * from "./components/Progress/WithProgress.js";
+export * from "./components/Progress/useProgress.js";
+export * from "./components/Progress/progress.js";
 export * from "./components/PageIndicator.js";
 export * from "./components/TreeView.js";
 export * from "./utils/console-utils.js";
 export * from "./utils/commands.js";
-export * from "./utils/ProgressContext.js";
+export * from "./components/Progress/ProgressContext.js";
 //# sourceMappingURL=index.js.map

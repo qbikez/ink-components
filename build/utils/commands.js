@@ -26,6 +26,9 @@ export class ProgressEmitter extends EventEmitter {
         const args = JSON.parse(argsStr);
         this.emit("command", command, path, args);
     }
+    setCommands(path, commands) {
+        this.emit("setCommands", path, commands);
+    }
 }
 export const progressEmitter = new ProgressEmitter();
 export const commandEmitter = new CommandEmitter();

@@ -1,5 +1,5 @@
 import React from "react";
-import { ProgressItem } from "../utils/ProgressContext.js";
+import { ProgressItem } from "./Progress/progress.js";
 export declare function StatusNode({ name, value, }: {
     name: string;
     value?: ProgressItem;

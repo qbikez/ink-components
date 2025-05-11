@@ -1,19 +1,5 @@
 import React from "react";
-import { ProgressItemState } from "./commands.js";
-export type ProgressPath = "main|signalR" | "server" | "client" | "main" | "main|stdin" | "console";
-export type ProgressUpdate = {
-    state: ProgressItemState;
-    status: string;
-    details?: string;
-    progress?: number;
-};
-export type ProgressItem = {
-    id: number;
-    log: string[];
-} & ProgressUpdate;
-export type Progress<TPath extends string | number | symbol> = {
-    [key in TPath]?: ProgressItem;
-};
+import { CommandDescription, Progress, ProgressUpdate } from "./progress.js";
 export type ProgressWrapper<TPath extends string | number | symbol> = {
     root: Progress<TPath>;
     id: number;
@@ -31,17 +17,21 @@ type LogAction<TPath extends string | number | symbol> = {
 type RefreshAction = {
     type: "refresh";
 };
-export type ProgressAction<TPath extends string | number | symbol> = UpdateAction<TPath> | LogAction<TPath> | RefreshAction;
+type SetCommandsAction<TPath extends string | number | symbol> = {
+    type: "setCommands";
+    path: TPath;
+    commands: CommandDescription[];
+};
+export type ProgressAction<TPath extends string | number | symbol> = UpdateAction<TPath> | LogAction<TPath> | RefreshAction | SetCommandsAction<TPath>;
 export declare class ProgressReducer<TPath extends string | number | symbol> {
     state: ProgressWrapper<TPath>;
     dispatch: React.Dispatch<ProgressAction<TPath>>;
     constructor(state: ProgressWrapper<TPath>, dispatch: React.Dispatch<ProgressAction<TPath>>);
     update(path: TPath, value: ProgressUpdate): void;
     log(path: TPath, lines: string[]): void;
+    setCommands(path: TPath, commands: CommandDescription[]): void;
     logWithoutUpdate(path: TPath, lines: string[]): void;
 }
-export declare const ProgressContext: React.Context<ProgressReducer<string>>;
-export declare function useProgress<TPath extends string | number | symbol = string>(): ProgressReducer<TPath>;
-export declare function createProgress<TPath extends string | number | symbol>(initialState?: ProgressWrapper<TPath>): ProgressReducer<string | number | symbol>;
 export declare function progressReducer<TPath extends string | number | symbol>(state: ProgressWrapper<TPath>, action: ProgressAction<TPath>): ProgressWrapper<TPath>;
+export declare function createProgress<TPath extends string | number | symbol>(initialState?: ProgressWrapper<TPath>): ProgressReducer<string | number | symbol>;
 export {};

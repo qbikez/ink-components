@@ -1,5 +1,5 @@
-import React, { useReducer } from "react";
-import { createContext } from "react";
+import { useReducer } from "react";
+import { createProgressItem, } from "./progress.js";
 export class ProgressReducer {
     state;
     dispatch;
@@ -21,35 +21,18 @@ export class ProgressReducer {
             lines,
         });
     }
+    setCommands(path, commands) {
+        this.dispatch({
+            type: "setCommands",
+            path,
+            commands,
+        });
+    }
     logWithoutUpdate(path, lines) {
-        if (!this.state.root[path]) {
-            this.state.root[path] = {
-                id: 0,
-                log: [],
-                status: "",
-                state: "new",
-            };
-        }
+        this.state.root[path] ??= createProgressItem();
         const log = this.state.root[path].log;
         this.state.root[path].log = [...log, ...lines];
     }
-}
-export const ProgressContext = createContext(null);
-export function useProgress() {
-    const context = React.useContext(ProgressContext);
-    if (context === null) {
-        throw new Error("useProgress must be used within a ProgressProvider");
-    }
-    return context;
-}
-export function createProgress(initialState) {
-    initialState ??= {
-        id: 0,
-        root: {},
-    };
-    const [state, dispatch] = useReducer(progressReducer, initialState);
-    const progress = new ProgressReducer(state, dispatch);
-    return progress;
 }
 export function progressReducer(state, action) {
     //console.log("Progress reducer", action);
@@ -60,17 +43,14 @@ export function progressReducer(state, action) {
             return update(action);
         case "log":
             return log(action);
+        case "setCommands":
+            return setCommands(action);
         case "refresh":
             return { ...state };
     }
     function log(action) {
         const { lines, path } = action;
-        const item = root[path] ?? {
-            state: "new",
-            status: "",
-            log: [],
-            id: 0,
-        };
+        const item = root[path] ?? createProgressItem();
         // avoid to much object copying and just push lines to existing log array
         item.log.push(...lines);
         root[path] = {
@@ -81,12 +61,7 @@ export function progressReducer(state, action) {
     }
     function update(action) {
         const { path, value } = action;
-        const item = root[path] ?? {
-            id: 0,
-            state: "new",
-            status: "",
-            log: [""],
-        };
+        const item = root[path] ?? createProgressItem();
         // creating a new object here means we cannot hold on to the ProgressItem value anywhere else in the code (i.e. when building status tree)
         root[path] = {
             ...item,
@@ -95,5 +70,25 @@ export function progressReducer(state, action) {
         };
         return { root, id: state.id + 1 };
     }
+    function setCommands(action) {
+        const { path, commands } = action;
+        const item = root[path] ?? createProgressItem();
+        item.commands = commands;
+        root[path] = {
+            ...item,
+            commands,
+            id: item.id + 1,
+        };
+        return { root, id: state.id + 1 };
+    }
 }
-//# sourceMappingURL=ProgressContext.js.map
+export function createProgress(initialState) {
+    initialState ??= {
+        id: 0,
+        root: {},
+    };
+    const [state, dispatch] = useReducer(progressReducer, initialState);
+    const progress = new ProgressReducer(state, dispatch);
+    return progress;
+}
+//# sourceMappingURL=ProgressReducer.js.map

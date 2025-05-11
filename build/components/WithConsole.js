@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect } from "react";
 import { consoleEmitter } from "../utils/console-utils.js";
-import { useProgress } from "../utils/ProgressContext.js";
+import { useProgress } from "./Progress/useProgress.js";
 import { progressEmitter } from "../utils/commands.js";
 export function WithConsole({ children, autoRefreshInterval, }) {
     useLayoutEffect(() => {
