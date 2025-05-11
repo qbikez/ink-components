@@ -26,7 +26,40 @@ cli.cli({
         key: "x",
       }]
     );
-    
+
+    cli.commandEmitter.on("invoke", (command, path, args) => {
+      switch (command) {
+        case "start":
+          cli.progressEmitter.log(
+            "init",
+            "Starting the app..."
+          );
+          cli.progressEmitter.update("init", {
+            status: "Starting",
+            state: "running",
+            progress: 50,
+          });
+          break;
+        case "stop":
+          cli.progressEmitter.log(
+            "init",
+            "Stopping the app..."
+          );
+          cli.progressEmitter.update("init", {
+            status: "Stopped",
+            state: "stopped",
+            progress: 100,
+          });
+          break;
+        default:
+          cli.progressEmitter.log(
+            "init",
+            `Unknown command: ${command}`
+          );
+          break;
+      }
+    });
+
     setTimeout(() => {
       cli.progressEmitter.log(
       "init",
