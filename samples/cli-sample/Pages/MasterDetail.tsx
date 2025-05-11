@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Cli,
@@ -6,6 +6,7 @@ import {
   KeyMap,
   Node,
   Text,
+  useEvent as useGlobalEvent,
   useKeymap,
   useNodeMap,
 } from "../dependencies/tuir.js";
@@ -33,21 +34,28 @@ export function MasterDetail({
 
   const selectedProgress = progress.state.root[selectedItem];
 
-  const keyMap = {
+  const mainKeyMap = {
     quit: { input: "q" },
-    start: { input: "s" },
     tab: { key: "tab" },
   } satisfies KeyMap;
-  const { useEvent } = useKeymap(keyMap);
+  const keyMap = useKeymap(mainKeyMap);
 
-  useEvent("quit", () => {
+  keyMap.useEvent("quit", () => {
     process.exit(0);
   });
-  useEvent("start", () => {
-    commandEmitter.invokeCommand("start", selectedItem, []);
-  });
-  useEvent("tab", () => {
+  keyMap.useEvent("tab", () => {
     control.next();
+  });
+
+  
+  useGlobalEvent("KEYPRESS", (key) => {
+    if (!selectedProgress) {
+      return;
+    }
+    const command = selectedProgress.commands?.find((c) => c.key === key);
+    if (command) {
+      commandEmitter.invokeCommand(command.name, selectedItem, []);
+    }
   });
 
   const commands = {
@@ -98,7 +106,7 @@ function CommandList({ item }: { item: ProgressItem | undefined }) {
         return (
           <Box key={index} flexDirection="row">
             <Text key={index} color="blue">
-              {command.key}: 
+              {command.key}:
             </Text>
             <Text color="gray">{command.name}</Text>
             <Text> | </Text>

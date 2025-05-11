@@ -1,13 +1,10 @@
-﻿import React, { useEffect, useState } from "react";
+﻿import React, { useState } from "react";
 import {
   Box,
   KeyMap,
-  measureElement,
   Text,
   useIsFocus,
   useKeymap,
-  DOMElement,
-  usePage,
   useResponsiveDimensions,
 } from "../tuir.js";
 import cliBoxes from "cli-boxes";
