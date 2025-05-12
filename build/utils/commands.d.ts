@@ -13,7 +13,7 @@ export interface IProgressEmitter {
     log(path: string, message: string): void;
     update(path: string, value: ProgressUpdate): void;
     command(path: string, command: string, argsStr: string): void;
-    setCommands(path: string, commands: CommandDescription[]): void;
+    setCommands(path: string, commands: string): void;
 }
 export interface ProgressEmitter {
     on(event: "log", listener: (path: string, message: string) => void): this;
@@ -27,7 +27,7 @@ export declare class ProgressEmitter extends EventEmitter implements IProgressEm
     log(path: string, message: string): void;
     update(path: string, value: ProgressUpdate): void;
     command(path: string, command: string, argsStr: string): void;
-    setCommands(path: string, commands: CommandDescription[]): void;
+    setCommands(path: string, commands: string): void;
 }
 export declare const progressEmitter: ProgressEmitter;
 export declare const commandEmitter: CommandEmitter;
