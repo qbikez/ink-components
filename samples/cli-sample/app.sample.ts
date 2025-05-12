@@ -14,7 +14,7 @@ cli.cli({
     cli.progressEmitter.update("init", {
       progress: 5,
     })
-    cli.progressEmitter.setCommands("init", [
+    cli.progressEmitter.setCommands("init", JSON.stringify([
       {
         name: "start",
         description: "Start the app",
@@ -24,7 +24,7 @@ cli.cli({
         name: "stop",
         description: "Stop the app",
         key: "x",
-      }]
+      }])
     );
 
     cli.commandEmitter.on("invoke", (command, path, args) => {

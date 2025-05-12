@@ -28,7 +28,7 @@ export interface IProgressEmitter {
   log(path: string, message: string): void;
   update(path: string, value: ProgressUpdate): void;
   command(path: string, command: string, argsStr: string): void;
-  setCommands(path: string, commands: CommandDescription[]): void;
+  setCommands(path: string, commands: string): void;
 }
 
 export interface ProgressEmitter {
@@ -67,8 +67,9 @@ export class ProgressEmitter extends EventEmitter implements IProgressEmitter {
     this.emit("command", command, path, args);
   }
 
-  setCommands(path: string, commands: CommandDescription[]): void {
-    this.emit("setCommands", path, commands);
+  setCommands(path: string, commands: string): void {
+    const parsedCommands = JSON.parse(commands) as CommandDescription[];
+    this.emit("setCommands", path, parsedCommands);
   }
 }
 
