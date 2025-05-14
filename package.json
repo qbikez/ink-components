@@ -8,10 +8,11 @@
     "build:lib": "tsc",
     "build:samples": "cd samples && tsc",
     "build": "npm run build:lib && npm run build:samples",
-    "watch": "tsc --watch",
+    "build:watch": "tsc --watch",
     "start": "npm run samples:cli",
     "samples:cli": "node --loader ts-node/esm ./samples/cli-sample/app.sample.ts",
-    "samples:cli-sample-package": "cd samples/cli-sample-package && npm install && npm start"
+    "samples:cli-sample-package": "cd samples/cli-sample-package && npm install && npm start",
+    "watch": "nodemon  -s sigterm --no-stdin --exec \"npm start\""
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@types/node": "^22.14.1",
     "@types/react": "^18.2.43",
+    "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
