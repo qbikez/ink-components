@@ -30,7 +30,8 @@ function linkProgressToEmitter(
       shouldUpdate = false;
     }
     if (path == "console!") {
-      shouldUpdate = true;
+      //shouldUpdate = true;
+      shouldUpdate = false;
       path = path.substring(0, path.length - 1);
     }
     if (shouldUpdate) {

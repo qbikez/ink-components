@@ -30,21 +30,21 @@ function flatten<T>(node: TreeNode<T>, level: number): FlattenedTreeNode<T>[] {
 export function TreeView<TItem = unknown>({
   root,
   onItemSelected,
-  renderNode
+  renderNode,
 }: {
   root: TreeNode<TItem>;
   onItemSelected?: (item: TreeNode<TItem>) => void;
   renderNode: (node: TreeNode<TItem>) => React.ReactNode;
 }) {
-  
   const nodes = useMemo(() => {
-    //console.log("treeview root");
     return flatten(root, 0);
   }, [root]);
 
+  // To count renders without causing a re-render, use a ref:
+  const renderCountRef = React.useRef(1);
+  renderCountRef.current += 1;
+
   //console.log('render treeview');
-  //const [nodes, setNodes] = useState(() => flatten(root, 0));
-  //const nodes = flatten(root, 0);
   const { listView, items, setItems, control } = useList(nodes, {
     windowSize: "fit",
     unitSize: 1,
@@ -53,7 +53,7 @@ export function TreeView<TItem = unknown>({
     fallthrough: false,
   });
 
-    useEffect(() => {
+  useEffect(() => {
     //console.log("treeview root modified");
     setItems(flatten(root, 0));
   }, [root]);
@@ -81,9 +81,13 @@ export function TreeView<TItem = unknown>({
     const splits = fullName?.split("|");
     if (splits && splits.length > 1) {
       const parentName = splits.slice(0, -1).join("|");
-      const parentNode = nodes.find((node) => node.node.fullName === parentName);
+      const parentNode = nodes.find(
+        (node) => node.node.fullName === parentName
+      );
       if (parentNode) {
-        const index = items.findIndex((item) => item.node.fullName === parentName);
+        const index = items.findIndex(
+          (item) => item.node.fullName === parentName
+        );
         control.goToIndex(index);
       }
     }
@@ -109,7 +113,25 @@ export function TreeView<TItem = unknown>({
   }, [items, control.currentIndex, onItemSelected]);
 
   return (
-    <Box width="100%">
+    <Box
+      width="100%"
+      borderStyle={{
+        top: "-",
+        bottom: "-",
+        left: "",
+        right: "",
+        topLeft: "",
+        topRight: "",
+        bottomLeft: "",
+        bottomRight: "",
+      }}
+      borderBottom={false}
+      borderLeft={false}
+      borderRight={false}
+      borderTop={true}
+      borderColor={"gray"}
+      titleTopRight={{ title: `Render count: ${renderCountRef.current}` }}
+    >
       <List listView={listView}>
         {items.map((node) => (
           <ListItem node={node} key={node.node.name}>
@@ -120,7 +142,10 @@ export function TreeView<TItem = unknown>({
     </Box>
   );
 }
-function ListItem({ node, children }: PropsWithChildren & { node: FlattenedTreeNode }): React.JSX.Element {
+function ListItem({
+  node,
+  children,
+}: PropsWithChildren & { node: FlattenedTreeNode }): React.JSX.Element {
   const { isFocus } = useListItem();
   const backgroundColor = isFocus ? "blue" : undefined;
   const textColor = "white";

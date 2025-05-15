@@ -73,7 +73,7 @@ cli.cli({
     }
     , 1000);
   },
-  variant: "master-detail",
+  variant: "treeview",
 });
 
 // cli({

@@ -22,6 +22,7 @@ export function cli(params: Parameters<typeof Root>[0]) {
     patchConsole: false,
     debug: false,
     ansiEscapeChars: {
+      // clearScreen: ansiEscapes.clearTerminal // <-- this causes each frame to stay in the terminal history
       clearScreen: ansiEscapes.clearScreen
     }
   });

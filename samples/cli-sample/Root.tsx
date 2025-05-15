@@ -24,7 +24,7 @@ export function Root({
   init,
   variant: initialVariant,
 }: { init?: () => void; variant?: RootVariant } = {}) {
-  initialVariant ??= "master-detail";
+  initialVariant ??= "treeview";
   const variants = VARIANTS as unknown as string[];
   const [variant, setVariant] = React.useState(initialVariant);
 
@@ -69,7 +69,8 @@ export function Root({
         currentPage={pageControl.currentPage}
       />
       <Box marginTop={-1}>
-        <Text>⌨️ </Text>
+        <Text>[🛰️{process.pid}] </Text>
+        <Text> ⌨️ </Text>
         <StdinState
           showEvents={true}
           showRegister={true}

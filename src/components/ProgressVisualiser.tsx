@@ -42,20 +42,21 @@ function RenderTreeView(
   onItemSelected?: (item: string) => void
 ) {
   const [tree, setTree] = useState<TreeNode<ProgressItem>>(
-    buildTree(progress.state, "|")
+    buildTree(progress.state, "|"),
   );
-  // useEffect(() => {
-  //   console.log(
-  //     `progress changed id=${progress.state.id} keys=${Object.keys(
-  //       progress.state
-  //     )}`
-  //   );
-  //   setTree((old) => {
-  //     const updatedTree = buildTree(progress.state, "|", old);
-  //     // we need to return a new object to trigger a re-render
-  //     return { ...updatedTree };
-  //   });
-  // }, [progress]);
+  useMemo(() => {
+      // console.log(
+      //   `progress changed id=${progress.state.id} keys=${Object.keys(
+      //     progress.state
+      //   )}`
+      // );
+    setTree((old) => {
+      const updatedTree = buildTree(progress.state, "|", old);
+      return updatedTree
+      // we need to return a new object to trigger a re-render
+    //  return { ...updatedTree };
+    });
+  }, [progress]);
 
   return (
     <TreeView<ProgressItem>
