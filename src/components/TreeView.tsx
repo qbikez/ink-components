@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, useEffect, useMemo, useState } from "react";
 import { Box, List, useList, Text, useListItem, KeyMap, useKeymap } from "tuir";
+import { WithRenderCount } from "./WithRenderCount.js";
 
 export type TreeNode<TItem = unknown> = {
   value?: TItem;
@@ -40,10 +41,6 @@ export function TreeView<TItem = unknown>({
     return flatten(root, 0);
   }, [root]);
 
-  // To count renders without causing a re-render, use a ref:
-  const renderCountRef = React.useRef(1);
-  renderCountRef.current += 1;
-
   //console.log('render treeview');
   const { listView, items, setItems, control } = useList(nodes, {
     windowSize: "fit",
@@ -53,7 +50,7 @@ export function TreeView<TItem = unknown>({
     fallthrough: false,
   });
 
-  useEffect(() => {
+  useMemo(() => {
     //console.log("treeview root modified");
     setItems(flatten(root, 0));
   }, [root]);
@@ -113,25 +110,7 @@ export function TreeView<TItem = unknown>({
   }, [items, control.currentIndex, onItemSelected]);
 
   return (
-    <Box
-      width="100%"
-      borderStyle={{
-        top: "-",
-        bottom: "-",
-        left: "",
-        right: "",
-        topLeft: "",
-        topRight: "",
-        bottomLeft: "",
-        bottomRight: "",
-      }}
-      borderBottom={false}
-      borderLeft={false}
-      borderRight={false}
-      borderTop={true}
-      borderColor={"gray"}
-      titleTopRight={{ title: `Render count: ${renderCountRef.current}` }}
-    >
+    <WithRenderCount>
       <List listView={listView}>
         {items.map((node) => (
           <ListItem node={node} key={node.node.name}>
@@ -139,7 +118,7 @@ export function TreeView<TItem = unknown>({
           </ListItem>
         ))}
       </List>
-    </Box>
+    </WithRenderCount>
   );
 }
 function ListItem({

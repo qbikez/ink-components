@@ -1,18 +1,14 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
+import { Box, KeyMap, List, Text, useKeymap, useList } from "../tuir.js";
+import { ProgressItem } from "./Progress/progress.js";
 import {
-  Box,
-  KeyMap,
-  List,
-  useKeymap,
-  useList,
-} from "../tuir.js";
-import {
-  ProgressItem,
-} from "./Progress/progress.js";
-import { ProgressReducer, ProgressWrapper } from "./Progress/ProgressReducer.js";
+  ProgressReducer,
+  ProgressWrapper,
+} from "./Progress/ProgressReducer.js";
 import { StatusNode } from "./StatusNode.js";
 import { TreeNode, TreeView } from "./TreeView.js";
+import { WithRenderCount } from "./WithRenderCount.js";
 
 const VARIANTS = ["treeView", "listView"] as const;
 export type ProgressVisualiserVariant = (typeof VARIANTS)[number];
@@ -26,37 +22,45 @@ export function ProgressVisualiser({
   onItemSelected?: (item: string) => void;
   variant?: ProgressVisualiserVariant;
 }): React.ReactNode {
-  
   switch (variant) {
     case "listView":
       return RenderListView(progress, onItemSelected);
     case "treeView":
-      return RenderTreeView(progress);
+      return (
+        <WithRenderCount>
+          <RenderTreeView progress={progress} onItemSelected={onItemSelected} />
+        </WithRenderCount>
+      );
     default:
       throw new Error(`Unknown variant: ${variant}`);
   }
 }
 
-function RenderTreeView(
-  progress: ProgressReducer<string>,
-  onItemSelected?: (item: string) => void
-) {
-  const [tree, setTree] = useState<TreeNode<ProgressItem>>(
-    buildTree(progress.state, "|"),
-  );
-  useMemo(() => {
-      // console.log(
-      //   `progress changed id=${progress.state.id} keys=${Object.keys(
-      //     progress.state
-      //   )}`
-      // );
-    setTree((old) => {
-      const updatedTree = buildTree(progress.state, "|", old);
-      return updatedTree
-      // we need to return a new object to trigger a re-render
+function RenderTreeView({
+  progress,
+  onItemSelected,
+}: {
+  progress: ProgressReducer<string>;
+  onItemSelected?: (item: string) => void;
+}) {
+  const treeRef = useRef<TreeNode<ProgressItem>>();
+  // const [tree, setTree] = useState<TreeNode<ProgressItem>>(
+  //   buildTree(progress.state, "|"),
+  // );
+  const tree = useMemo(() => {
+    console.log(
+      `progress changed id=${progress.state.id} keys=${Object.keys(
+        progress.state
+      )}`
+    );
+
+    const updatedTree = buildTree(progress.state, "|", treeRef.current);
+    return updatedTree;
+    // we need to return a new object to trigger a re-render
     //  return { ...updatedTree };
-    });
+    //});
   }, [progress]);
+  treeRef.current = tree;
 
   return (
     <TreeView<ProgressItem>
