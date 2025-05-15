@@ -1,32 +1,34 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Box, List, useKeymap, useList, } from "../tuir.js";
+import React, { useEffect, useMemo, useRef } from "react";
+import { Box, List, useKeymap, useList } from "../tuir.js";
 import { StatusNode } from "./StatusNode.js";
 import { TreeView } from "./TreeView.js";
+import { WithRenderCount } from "./WithRenderCount.js";
 const VARIANTS = ["treeView", "listView"];
 export function ProgressVisualiser({ progress, onItemSelected, variant = "listView", }) {
     switch (variant) {
         case "listView":
             return RenderListView(progress, onItemSelected);
         case "treeView":
-            return RenderTreeView(progress);
+            return (React.createElement(WithRenderCount, null,
+                React.createElement(RenderTreeView, { progress: progress, onItemSelected: onItemSelected })));
         default:
             throw new Error(`Unknown variant: ${variant}`);
     }
 }
-function RenderTreeView(progress, onItemSelected) {
-    const [tree, setTree] = useState(buildTree(progress.state, "|"));
-    // useEffect(() => {
-    //   console.log(
-    //     `progress changed id=${progress.state.id} keys=${Object.keys(
-    //       progress.state
-    //     )}`
-    //   );
-    //   setTree((old) => {
-    //     const updatedTree = buildTree(progress.state, "|", old);
-    //     // we need to return a new object to trigger a re-render
-    //     return { ...updatedTree };
-    //   });
-    // }, [progress]);
+function RenderTreeView({ progress, onItemSelected, }) {
+    const treeRef = useRef();
+    // const [tree, setTree] = useState<TreeNode<ProgressItem>>(
+    //   buildTree(progress.state, "|"),
+    // );
+    const tree = useMemo(() => {
+        console.log(`progress changed id=${progress.state.id} keys=${Object.keys(progress.state)}`);
+        const updatedTree = buildTree(progress.state, "|", treeRef.current);
+        return updatedTree;
+        // we need to return a new object to trigger a re-render
+        //  return { ...updatedTree };
+        //});
+    }, [progress]);
+    treeRef.current = tree;
     return (React.createElement(TreeView, { root: tree, onItemSelected: (item) => onItemSelected?.(item.fullName), renderNode: (node) => (React.createElement(Box, null,
             React.createElement(StatusNode, { name: node.name, value: node.value }))) }));
 }

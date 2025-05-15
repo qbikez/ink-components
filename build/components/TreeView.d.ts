@@ -6,7 +6,7 @@ export type TreeNode<TItem = unknown> = {
     children: TreeNode<TItem>[];
     isCollapsed?: boolean;
 };
-export declare function TreeView<TItem = unknown>({ root, onItemSelected, renderNode }: {
+export declare function TreeView<TItem = unknown>({ root, onItemSelected, renderNode, }: {
     root: TreeNode<TItem>;
     onItemSelected?: (item: TreeNode<TItem>) => void;
     renderNode: (node: TreeNode<TItem>) => React.ReactNode;

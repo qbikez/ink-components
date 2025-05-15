@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import { Box, List, useList, Text, useListItem, useKeymap } from "tuir";
+import { WithRenderCount } from "./WithRenderCount.js";
 function flatten(node, level) {
     const nodes = [{ node, level }];
     const { children, isCollapsed } = node;
@@ -10,14 +11,11 @@ function flatten(node, level) {
     }
     return nodes;
 }
-export function TreeView({ root, onItemSelected, renderNode }) {
+export function TreeView({ root, onItemSelected, renderNode, }) {
     const nodes = useMemo(() => {
-        //console.log("treeview root");
         return flatten(root, 0);
     }, [root]);
     //console.log('render treeview');
-    //const [nodes, setNodes] = useState(() => flatten(root, 0));
-    //const nodes = flatten(root, 0);
     const { listView, items, setItems, control } = useList(nodes, {
         windowSize: "fit",
         unitSize: 1,
@@ -25,7 +23,7 @@ export function TreeView({ root, onItemSelected, renderNode }) {
         centerScroll: false,
         fallthrough: false,
     });
-    useEffect(() => {
+    useMemo(() => {
         //console.log("treeview root modified");
         setItems(flatten(root, 0));
     }, [root]);
@@ -74,11 +72,11 @@ export function TreeView({ root, onItemSelected, renderNode }) {
                 return;
             onItemSelected(item.node);
         }
-    }, [items, control.currentIndex, onItemSelected]);
-    return (React.createElement(Box, { width: "100%" },
+    }, [control.currentIndex, items, onItemSelected]);
+    return (React.createElement(WithRenderCount, null,
         React.createElement(List, { listView: listView }, items.map((node) => (React.createElement(ListItem, { node: node, key: node.node.name }, renderNode(node.node)))))));
 }
-function ListItem({ node, children }) {
+function ListItem({ node, children, }) {
     const { isFocus } = useListItem();
     const backgroundColor = isFocus ? "blue" : undefined;
     const textColor = "white";
