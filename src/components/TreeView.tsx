@@ -107,7 +107,7 @@ export function TreeView<TItem = unknown>({
 
       onItemSelected(item.node);
     }
-  }, [items, control.currentIndex, onItemSelected]);
+  }, [control.currentIndex, items, onItemSelected]);
 
   return (
     <WithRenderCount>
