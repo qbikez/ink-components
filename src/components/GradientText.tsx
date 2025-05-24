@@ -1,0 +1,51 @@
+import React from 'react';
+import { Text } from '../tuir.js';
+import chalk from 'chalk';
+
+interface GradientTextProps {
+    text: string;
+    startColor?: string;
+    endColor?: string;
+    numberOfSegments?: number;
+}
+
+const interpolateColor = (color1: string, color2: string, factor: number) => {
+    const hex1 = color1.startsWith('#') ? color1.slice(1) : color1;
+    const hex2 = color2.startsWith('#') ? color2.slice(1) : color2;
+
+    const r1 = parseInt(hex1.slice(0, 2), 16);
+    const g1 = parseInt(hex1.slice(2, 4), 16);
+    const b1 = parseInt(hex1.slice(4, 6), 16);
+
+    const r2 = parseInt(hex2.slice(0, 2), 16);
+    const g2 = parseInt(hex2.slice(2, 4), 16);
+    const b2 = parseInt(hex2.slice(4, 6), 16);
+
+    const r = Math.round(r1 + (r2 - r1) * factor);
+    const g = Math.round(g1 + (g2 - g1) * factor);
+    const b = Math.round(b1 + (b2 - b1) * factor);
+
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+};
+
+export const GradientText: React.FC<GradientTextProps> = ({
+    text,
+    startColor = '#ff0000',
+    endColor = '#0000ff',
+    numberOfSegments = 10
+}) => {
+    const characters = text.split('');
+    const segments = [];
+
+    for (let i = 0; i < characters.length; i++) {
+        const factor = i / (characters.length - 1);
+        const color = interpolateColor(startColor, endColor, factor);
+        segments.push(
+            <Text key={i} color={color}>
+                {characters[i]}
+            </Text>
+        );
+    }
+
+    return <Text>{segments}</Text>;
+}; 

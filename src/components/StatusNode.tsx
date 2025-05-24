@@ -4,6 +4,7 @@ import { Spinner } from "./Spinner.js";
 import { ProgressBar } from "./ProgressBar.js";
 import { ProgressItem, ProgressItemState } from "./Progress/progress.js";
 import { WithRenderCount } from "./WithRenderCount.js";
+import { GradientText } from "./GradientText.js";
 
 export function StatusNode({
   name,
@@ -35,7 +36,11 @@ export function StatusNode({
       )}
       <Box backgroundColor={backgroundColor}>
         <Box backgroundColor={backgroundColor}>
-          <Text color={foregroundColor}>{`${name}`}</Text>
+          <GradientText 
+            text={name}
+            startColor={isFocus ? "#FFFFFF" : "#FF4500"}
+            endColor={isFocus ? "#E0FFFF" : "#FFD700"}
+          />
           {value?.status || value?.details ? (
             <Text color={foregroundColor}>
               : {value?.status || ""}

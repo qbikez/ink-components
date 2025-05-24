@@ -10,6 +10,7 @@ export * from "./components/Progress/useProgress.js";
 export * from "./components/Progress/progress.js";
 export * from "./components/PageIndicator.js";
 export * from "./components/TreeView.js";
+export * from "./components/GradientText.js";
 
 export * from "./utils/console-utils.js";
 export * from "./utils/commands.js";
