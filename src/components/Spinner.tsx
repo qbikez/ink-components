@@ -17,11 +17,9 @@ export function Spinner({ label, type, speed }: SpinnerProps) {
   //const {styles} = useComponentTheme<Theme>('Spinner');
 
   return (
-    <WithRenderCount mode="inline">
-      <Box>
-        <Text>{frame}</Text>
-        {label && <Text>{label}</Text>}
-      </Box>
-    </WithRenderCount>
+    <Box>
+      <Text>{frame}</Text>
+      {label && <Text>{label}</Text>}
+    </Box>
   );
 }

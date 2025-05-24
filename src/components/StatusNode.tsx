@@ -24,7 +24,7 @@ export function StatusNode({
     <Box backgroundColor={backgroundColor}>
       {value ? (
         value.state == "running" ? (
-          <Spinner label=" " type="dots" speed={2} />
+          <Spinner label=" " type="dots" speed={1} />
         ) : (
           <Box backgroundColor={backgroundColor} marginRight={1}>
             <Text color={color}>{icon}</Text>
