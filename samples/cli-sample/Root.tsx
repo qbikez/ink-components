@@ -98,7 +98,7 @@ function usePageNavigation(pageNames: string[], pageControl: PagesControl) {
   const { useEvent } = useKeymap(pagesKeymap);
 
   useEvent("quit", () => {
-    process.exit(0);
+    //process.exit(0);
   });
 
   useEvent("goToPage", (char: string) => {

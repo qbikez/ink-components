@@ -3,6 +3,7 @@ import { Box, Text, useListItem, Color } from "../tuir.js";
 import { Spinner } from "./Spinner.js";
 import { ProgressBar } from "./ProgressBar.js";
 import { ProgressItem, ProgressItemState } from "./Progress/progress.js";
+import { WithRenderCount } from "./WithRenderCount.js";
 
 export function StatusNode({
   name,
@@ -44,7 +45,11 @@ export function StatusNode({
             <></>
           )}
           {value?.progress ? (
-            <ProgressBar value={value.progress} width={10} style={{completedCharacter: '━', remainingCharacter: '━'}}></ProgressBar>
+            <ProgressBar
+              value={value.progress}
+              width={10}
+              style={{ completedCharacter: "━", remainingCharacter: "━" }}
+            ></ProgressBar>
           ) : (
             <></>
           )}
