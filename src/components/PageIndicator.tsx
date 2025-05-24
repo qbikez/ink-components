@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Text } from "../tuir.js";
-import { GradientText } from "./GradientText.js";
 
 export function PageIndicator({
     pageNames,
@@ -12,18 +11,9 @@ export function PageIndicator({
     return (
       <Box height={1} justifyContent="center">
         {pageNames.map((name, idx) => (
-          <React.Fragment key={idx}>
-            {idx === currentPage ? (
-              <GradientText 
-                text={`${idx+1}: ${name}`} 
-                startColor="#4169E1" 
-                endColor="#00BFFF"
-              />
-            ) : (
-              <Text color="white">{idx+1}: {name}</Text>
-            )}
-            <Text> | </Text>
-          </React.Fragment>
+          <Text key={idx} color={idx === currentPage ? "blue" : "white"}>
+            {idx+1}: {name} |{" "}
+          </Text>
         ))}
       </Box>
     );

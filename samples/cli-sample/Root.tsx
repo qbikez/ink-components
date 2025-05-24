@@ -10,14 +10,15 @@ import {
   usePages,
   Viewport,
 } from "./dependencies/tuir.js";
-import { PageIndicator, progressEmitter } from "./dependencies/ink-components.js";
+import { PageIndicator, progressEmitter, GradientText } from "./dependencies/ink-components.js";
 import { MasterDetail } from "./Pages/MasterDetail.js";
 import { SimpleLog } from "./Pages/Simple.js";
+import { ProgressDemo } from "./Pages/ProgressDemo.js";
 
 type PagesReturn = ReturnType<typeof usePages>;
 type PagesControl = PagesReturn["control"];
 
-const VARIANTS = ["simple", "master-detail", "treeview"] as const;
+const VARIANTS = ["simple", "master-detail", "treeview", "progress"] as const;
 type RootVariant = (typeof VARIANTS)[number];
 
 export function Root({
@@ -63,13 +64,14 @@ export function Root({
         <SimpleLog />
         <MasterDetail variant="listView" />
         <MasterDetail variant="treeView" />
+        <ProgressDemo />
       </Pages>
       <PageIndicator
         pageNames={variants}
         currentPage={pageControl.currentPage}
       />
       <Box marginTop={-1}>
-        <Text>[🛰️{process.pid}] </Text>
+        <GradientText text={`[🛰️${process.pid}]`} startColor="#00ff00" endColor="#0000ff" />
         <Text> ⌨️ </Text>
         <StdinState
           showEvents={true}
