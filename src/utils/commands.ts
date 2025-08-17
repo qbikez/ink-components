@@ -3,7 +3,7 @@ import { EventEmitter } from "node:events";
 import {
   CommandDescription,
   ProgressUpdate,
-} from "../components/Progress/progress.js";
+} from "../components/Progress/progressItem.js";
 
 export interface CommandEmitter {
   on(
@@ -32,7 +32,7 @@ export interface IProgressEmitter {
 }
 
 export interface ProgressEmitter {
-  on(event: "log", listener: (path: string, message: string) => void): this;
+  on(event: "log", listener: (path: string, message: string, mode: UpdateMode) => void): this;
   on(
     event: "update",
     listener: (path: string, value: ProgressUpdate) => void
@@ -46,7 +46,7 @@ export interface ProgressEmitter {
     listener: (path: string, commands: CommandDescription[]) => void
   ): this;
 }
-
+export type UpdateMode = 'async' | 'sync';
 export class ProgressEmitter extends EventEmitter implements IProgressEmitter {
   public id: UUID;
   constructor() {
@@ -54,8 +54,8 @@ export class ProgressEmitter extends EventEmitter implements IProgressEmitter {
     this.id = randomUUID();
   }
 
-  log(path: string, message: string): void {
-    this.emit("log", path, message);
+  log(path: string, message: string, mode: UpdateMode = 'sync'): void {
+    this.emit("log", path, message, mode);
   }
 
   update(path: string, value: ProgressUpdate): void {
