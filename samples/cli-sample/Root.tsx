@@ -71,7 +71,7 @@ export function Root({
         currentPage={pageControl.currentPage}
       />
       <Box marginTop={-1}>
-        <GradientText text={`[🛰️${process.pid}]`} startColor="#00ff00" endColor="#0000ff" />
+        <GradientText startColor="#00ff00" endColor="#0000ff">[🛰️{process.pid}]</GradientText>
         <Text> ⌨️ </Text>
         <StdinState
           showEvents={true}
