@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { Box, KeyMap, List, Text, useKeymap, useList } from "../tuir.js";
-import { ProgressItem } from "./Progress/progress.js";
+import { ProgressItem } from "./Progress/progressItem.js";
 import {
-  ProgressReducer,
+  Progress,
   ProgressWrapper,
-} from "./Progress/ProgressReducer.js";
+} from "./Progress/Progress.js";
 import { StatusNode } from "./StatusNode.js";
 import { TreeNode, TreeView } from "./TreeView.js";
 import { WithRenderCount } from "./WithRenderCount.js";
@@ -18,7 +18,7 @@ export function ProgressVisualiser({
   onItemSelected,
   variant = "listView",
 }: {
-  progress: ProgressReducer<string>;
+  progress: Progress<string>;
   onItemSelected?: (item: string) => void;
   variant?: ProgressVisualiserVariant;
 }): React.ReactNode {
@@ -40,7 +40,7 @@ function RenderTreeView({
   progress,
   onItemSelected,
 }: {
-  progress: ProgressReducer<string>;
+  progress: Progress<string>;
   onItemSelected?: (item: string) => void;
 }) {
   const treeRef = useRef<TreeNode<ProgressItem>>();
@@ -76,7 +76,7 @@ function RenderTreeView({
 }
 
 function RenderListView(
-  progress: ProgressReducer<string>,
+  progress: Progress<string>,
   onItemSelected: ((item: string) => void) | undefined
 ) {
   const states = useMemo(

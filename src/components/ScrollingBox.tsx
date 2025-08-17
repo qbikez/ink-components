@@ -9,7 +9,8 @@ import {
 } from "../tuir.js";
 import cliBoxes from "cli-boxes";
 import { border } from "../utils/borders.js";
-
+import { GradientText } from "./GradientText.js";
+import { WithRenderCount } from "./WithRenderCount.js";
 type State = {
   startIdx?: number;
   offset: number;
@@ -103,7 +104,7 @@ export function ScrollingBox({
   const hasFocus = useIsFocus();
   
   return (
-    <>
+    <WithRenderCount mode="inline">
       <Box
         ref={outputBox}
         overflowY="hidden"
@@ -125,7 +126,7 @@ export function ScrollingBox({
           flexGrow={1}
           // height="100%"
         >
-          <Text>{output.slice(startIdx, startIdx + textLines).join("\n")}</Text>
+          <GradientText>{output.slice(startIdx, startIdx + textLines).join("\n")}</GradientText>
         </Box>
         {/* <Box marginLeft={6} marginTop={-1}>
           <Text>
@@ -133,7 +134,7 @@ export function ScrollingBox({
           </Text>
         </Box> */}
       </Box>
-    </>
+    </WithRenderCount>
   );
 }
 

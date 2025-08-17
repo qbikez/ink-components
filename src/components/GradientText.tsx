@@ -3,7 +3,7 @@ import { Text } from '../tuir.js';
 import chalk from 'chalk';
 
 interface GradientTextProps {
-    text: string;
+    children: React.ReactNode;
     startColor?: string;
     endColor?: string;
     numberOfSegments?: number;
@@ -29,23 +29,24 @@ const interpolateColor = (color1: string, color2: string, factor: number) => {
 };
 
 export const GradientText: React.FC<GradientTextProps> = ({
-    text,
+    children,
     startColor = '#ff0000',
     endColor = '#0000ff',
     numberOfSegments = 10
 }) => {
-    const characters = text.split('');
-    const segments = [];
+    if (typeof children !== 'string') {
+        return <Text>{children}</Text>;
+    }
+
+    const characters = children.split('');
+    let result = '';
 
     for (let i = 0; i < characters.length; i++) {
         const factor = i / (characters.length - 1);
         const color = interpolateColor(startColor, endColor, factor);
-        segments.push(
-            <Text key={i} color={color}>
-                {characters[i]}
-            </Text>
-        );
+        result += chalk.hex(color)(characters[i]);
+        //result += characters[i];
     }
 
-    return <Text>{segments}</Text>;
+    return <Text>{result}</Text>;
 }; 

@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Text, useListItem, Color } from "../tuir.js";
 import { Spinner } from "./Spinner.js";
 import { AnimatedProgressBar as ProgressBar } from "./AnimatedProgressBar.js";
-import { ProgressItem, ProgressItemState } from "./Progress/progress.js";
+import { ProgressItem, ProgressItemState } from "./Progress/progressItem.js";
 import { WithRenderCount } from "./WithRenderCount.js";
 
 export function StatusNode({
@@ -44,7 +44,7 @@ export function StatusNode({
           ) : (
             <></>
           )}
-          {value?.progress ? (
+          {/* {value?.progress ? (
             <ProgressBar
               value={value.progress}
               width={10}
@@ -55,7 +55,7 @@ export function StatusNode({
             ></ProgressBar>
           ) : (
             <></>
-          )}
+          )} */}
         </Box>
       </Box>
     </Box>
