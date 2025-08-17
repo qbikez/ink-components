@@ -1,5 +1,5 @@
 ﻿import { createContext } from "react";
-import { ProgressReducer } from "./ProgressReducer.js";
+import { Progress } from "./Progress.js";
 
 // export type ProgressPath =
 //   | "main|signalR"
@@ -10,7 +10,7 @@ import { ProgressReducer } from "./ProgressReducer.js";
 //   | "console";
 
 export const ProgressContext = createContext<
-  ProgressReducer<string>
+  Progress<string>
 >(null as any);
 
 

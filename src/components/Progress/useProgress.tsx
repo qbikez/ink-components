@@ -1,12 +1,12 @@
 import React from "react";
 import { ProgressContext } from "./ProgressContext.js";
-import { ProgressReducer } from "./ProgressReducer.js";
+import { Progress } from "./Progress.js";
 
 
-export function useProgress<TPath extends string | number | symbol = string>() {
+export function useProgress<TPath extends string | number | symbol = string>(): Progress<TPath> {
   const context = React.useContext(ProgressContext);
   if (context === null) {
     throw new Error("useProgress must be used within a ProgressProvider");
   }
-  return context as ProgressReducer<TPath>;
+  return context as Progress<TPath>;
 }

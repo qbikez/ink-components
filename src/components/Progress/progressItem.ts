@@ -30,7 +30,7 @@ export type CommandDescription = {
 
 export type ProgressUpdate = Partial<Omit<ProgressItem, "id" | "log">>;
 
-export type Progress<TPath extends string | number | symbol> = {
+export type ProgressState<TPath extends string | number | symbol> = {
   [key in TPath]?: ProgressItem;
 };
 
