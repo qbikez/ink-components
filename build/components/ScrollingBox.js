@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Box, Text, useIsFocus, useKeymap, useResponsiveDimensions, } from "../tuir.js";
+import { Box, useIsFocus, useKeymap, useResponsiveDimensions, } from "../tuir.js";
 import cliBoxes from "cli-boxes";
 import { border } from "../utils/borders.js";
+import { GradientText } from "./GradientText.js";
+import { WithRenderCount } from "./WithRenderCount.js";
 export function ScrollingBox({ data = [], height = undefined, width = undefined, title = undefined, }) {
     //const [boxSize, setBoxSize] = useState({ width: 0, height: 0 });
     const [offset, setOffset] = useState(0);
@@ -55,7 +57,7 @@ export function ScrollingBox({ data = [], height = undefined, width = undefined,
     const isAutoScroll = state.startIdx === undefined;
     const marker = isAutoScroll ? "↓" : "↑";
     const hasFocus = useIsFocus();
-    return (React.createElement(React.Fragment, null,
+    return (React.createElement(WithRenderCount, { mode: "inline" },
         React.createElement(Box, { ref: outputBox, overflowY: "hidden", height: height, width: width, flexDirection: "column", flexGrow: 1 },
             React.createElement(Box, { borderColor: border(hasFocus).borderColor, borderStyle: {
                     ...cliBoxes.single,
@@ -63,7 +65,7 @@ export function ScrollingBox({ data = [], height = undefined, width = undefined,
                 }, titleBottomRight: {
                     title: `w:${boxSize.width} h:${boxSize.height}(${textLines}) data:${data.length}=>${output.length} start:${startIdx} offset:${offset}`,
                 }, titleTopRight: { title: title ?? "" }, flexGrow: 1 },
-                React.createElement(Text, null, output.slice(startIdx, startIdx + textLines).join("\n"))))));
+                React.createElement(GradientText, null, output.slice(startIdx, startIdx + textLines).join("\n"))))));
 }
 function wrapLine(line, lineWidth, prefix) {
     prefix = prefix || "";

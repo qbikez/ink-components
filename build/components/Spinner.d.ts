@@ -1,5 +1,5 @@
-import React from 'react';
-import { type UseSpinnerProps } from './useSpinner.js';
+import React from "react";
+import { type UseSpinnerProps } from "./useSpinner.js";
 export type SpinnerProps = UseSpinnerProps & {
     /**
      * Label to show near the spinner.

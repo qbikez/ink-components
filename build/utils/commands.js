@@ -16,8 +16,8 @@ export class ProgressEmitter extends EventEmitter {
         super();
         this.id = randomUUID();
     }
-    log(path, message) {
-        this.emit("log", path, message);
+    log(path, message, mode = 'sync') {
+        this.emit("log", path, message, mode);
     }
     update(path, value) {
         this.emit("update", path, value);

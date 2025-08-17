@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from "react";
-import { createProgress } from "./ProgressReducer.js";
+import { createProgress } from "./Progress.js";
 import { progressEmitter } from "../../utils/commands.js";
 import { ProgressContext } from "./ProgressContext.js";
 export function WithProgress(props) {
@@ -10,22 +10,16 @@ export function WithProgress(props) {
     return (React.createElement(ProgressContext.Provider, { value: progress }, props.children));
 }
 function linkProgressToEmitter(progress) {
-    progressEmitter.on("log", (path, message) => {
-        // if there's a console.log call in a render path, it would cause log update, which will cause re-render, which will call console.log and cause infinite loop. To avoid that, we don't cause state change when logging from console, unless it's a console.log! call.
-        let shouldUpdate = true;
-        if (path == "console") {
-            shouldUpdate = false;
-        }
-        if (path == "console!") {
-            //shouldUpdate = true;
-            shouldUpdate = false;
-            path = path.substring(0, path.length - 1);
-        }
-        if (shouldUpdate) {
-            progress.log(path, [message]);
-        }
-        else {
-            progress.logWithoutUpdate(path, [message]);
+    progressEmitter.on("log", (path, message, mode) => {
+        switch (mode) {
+            case 'sync':
+                progress.log(path, [message]);
+                break;
+            case 'async':
+                progress.logWithoutUpdate(path, [message]);
+                break;
+            default:
+                throw new Error(`Unknown log mode: ${mode}`);
         }
     });
     progressEmitter.on("update", (path, value) => {

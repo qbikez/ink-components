@@ -1,2 +1,2 @@
-import { ProgressReducer } from "./ProgressReducer.js";
-export declare const ProgressContext: import("react").Context<ProgressReducer<string>>;
+import { Progress } from "./Progress.js";
+export declare const ProgressContext: import("react").Context<Progress<string>>;
